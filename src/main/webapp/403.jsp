@@ -1,0 +1,35 @@
+<<<<<<< HEAD
+
+<!DOCTYPE html>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %><html>
+=======
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
+<html>
+>>>>>>> 0c9c09f47493e717ad427f5ae69f05b355c0e9a6
+<head>
+    <meta charset="UTF-8">
+    <title>Access Denied</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-body text-center p-5">
+                    <h1 class="display-4 text-danger">403</h1>
+                    <h3 class="mb-3">Access Denied</h3>
+                    <p class="text-muted">You do not have permission to access this page.</p>
+                    <div class="d-flex justify-content-center gap-2 mt-4">
+                        <a href="javascript:history.back()" class="btn btn-outline-secondary">Go Back</a>
+                        <a href="home" class="btn btn-primary">Home</a>
+                        <a href="login.jsp" class="btn btn-outline-primary">Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,357 @@
+<<<<<<< HEAD
+=======
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+>>>>>>> 0c9c09f47493e717ad427f5ae69f05b355c0e9a6
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#F8FAFC;
+}
+
+<<<<<<< HEAD
+/* ================= Sidebar ================= */
+
+.sidebar{
+
+    position:fixed;
+
+    left:0;
+
+    top:0;
+
+    width:260px;
+
+    height:100vh;
+
+    background:#0F172A;
+
+    padding:25px;
+
+    overflow-y:auto;
+
+}
+
+.logo{
+
+    color:#fff;
+
+    font-size:28px;
+
+    font-weight:bold;
+
+    margin-bottom:40px;
+
+    text-align:center;
+
+}
+
+.logo span{
+
+    color:#F97316;
+
+}
+
+.sidebar a{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    color:#CBD5E1;
+
+    text-decoration:none;
+
+    padding:14px;
+
+    margin-bottom:10px;
+
+    border-radius:12px;
+
+    transition:.3s;
+
+    font-weight:500;
+
+=======
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:250px;
+    height:100vh;
+    background:#0F172A;
+    color:white;
+    overflow:auto;
+}
+
+.logo{
+    text-align:center;
+    padding:25px;
+    font-size:28px;
+    font-weight:700;
+    border-bottom:1px solid rgba(255,255,255,.1);
+}
+
+.sidebar a{
+    display:block;
+    color:#CBD5E1;
+    padding:16px 25px;
+    text-decoration:none;
+    transition:.3s;
+>>>>>>> 0c9c09f47493e717ad427f5ae69f05b355c0e9a6
+}
+
+.sidebar a:hover{
+
+    background:#1E293B;
+
+    color:white;
+
+<<<<<<< HEAD
+    transform:translateX(5px);
+
+}
+
+.sidebar a.active{
+
+    background:#F97316;
+
+    color:white;
+
+}
+
+.sidebar i{
+
+    font-size:18px;
+
+}
+
+/* ================= Topbar ================= */
+
+.topbar{
+
+    height:70px;
+
+    background:white;
+
+    box-shadow:0 2px 10px rgba(0,0,0,.08);
+
+=======
+    padding-left:35px;
+
+}
+
+.main{
+
+    margin-left:250px;
+
+    min-height:100vh;
+
+}
+
+.topbar{
+
+    height:75px;
+
+    background:white;
+
+>>>>>>> 0c9c09f47493e717ad427f5ae69f05b355c0e9a6
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+<<<<<<< HEAD
+    padding:0 35px;
+
+}
+
+.admin-info{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+.admin-info i{
+
+    font-size:32px;
+
+    color:#F97316;
+
+}
+
+/* ================= Main ================= */
+
+.main{
+
+    margin-left:260px;
+
+    min-height:100vh;
+
+}
+
+.content{
+=======
+    padding:0 30px;
+
+    box-shadow:0 3px 10px rgba(0,0,0,.08);
+
+}
+
+.page{
+>>>>>>> 0c9c09f47493e717ad427f5ae69f05b355c0e9a6
+
+    padding:35px;
+
+}
+
+<<<<<<< HEAD
+/* ================= Cards ================= */
+
+.card-box{
+=======
+.card-dashboard{
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:30px;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+
+    transition:.3s;
+
+}
+
+.card-dashboard:hover{
+
+    transform:translateY(-5px);
+
+}
+
+.number{
+
+    font-size:34px;
+
+    font-weight:bold;
+
+}
+
+.title{
+
+    color:#64748B;
+
+}
+
+.table-card{
+>>>>>>> 0c9c09f47493e717ad427f5ae69f05b355c0e9a6
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:25px;
+
+<<<<<<< HEAD
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+
+    margin-bottom:25px;
+
+}
+
+/* ================= Tables ================= */
+
+.table{
+
+    vertical-align:middle;
+
+}
+
+.table th{
+
+    font-weight:700;
+
+}
+
+/* ================= Buttons ================= */
+
+.btn-orange{
+
+    background:#F97316;
+
+    color:white;
+
+}
+
+.btn-orange:hover{
+
+    background:#EA580C;
+
+    color:white;
+
+}
+
+/* ================= Search ================= */
+
+.search-box{
+
+    max-width:350px;
+
+}
+
+/* ================= Badges ================= */
+
+.badge-admin{
+
+    background:#DC2626;
+
+}
+
+.badge-customer{
+
+    background:#2563EB;
+
+}
+
+.badge-restaurant{
+
+    background:#16A34A;
+
+}
+
+.badge-delivery{
+
+    background:#EA580C;
+
+}
+
+/* ================= Footer ================= */
+
+.footer{
+
+    text-align:center;
+
+    color:#94A3B8;
+
+    margin-top:40px;
+
+=======
+    margin-top:30px;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+
+>>>>>>> 0c9c09f47493e717ad427f5ae69f05b355c0e9a6
+}

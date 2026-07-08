@@ -1,0 +1,38 @@
+.grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+
+    gap:30px;
+
+}
+
+.restaurant-card img{
+
+    height:220px;
+    width:100%;
+    object-fit:cover;
+
+}
+
+.card-body{
+
+    padding:20px;
+
+}
+
+.rating{
+
+    color:#ff9800;
+    font-weight:bold;
+
+}
+
+.price{
+
+    color:#28a745;
+    font-size:22px;
+    font-weight:bold;
+
+}

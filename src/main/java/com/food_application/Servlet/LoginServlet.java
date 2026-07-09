@@ -58,7 +58,6 @@ public class LoginServlet extends HttpServlet {
 
             if ("ADMIN".equals(role)) {
 
-<<<<<<< HEAD
             	response.sendRedirect(request.getContextPath() + "/adminDashboard");
 
             } else if ("RESTAURANT".equals(role)) {
@@ -68,26 +67,11 @@ public class LoginServlet extends HttpServlet {
             } else if ("DELIVERY_AGENT".equals(role)) {
 
             	response.sendRedirect(request.getContextPath() + "/deliveryDashboard");
-=======
-                response.sendRedirect("adminDashboard");
-
-            } else if ("RESTAURANT".equals(role)) {
-
-                response.sendRedirect("restaurantDashboard");
-
-            } else if ("DELIVERY_AGENT".equals(role)) {
-
-                response.sendRedirect("deliveryDashboard");
->>>>>>> 0c9c09f47493e717ad427f5ae69f05b355c0e9a6
 
             } else {
 
                 // CUSTOMER
-<<<<<<< HEAD
             	response.sendRedirect(request.getContextPath() + "/home");
-=======
-                response.sendRedirect("home");
->>>>>>> 0c9c09f47493e717ad427f5ae69f05b355c0e9a6
 
             }
 

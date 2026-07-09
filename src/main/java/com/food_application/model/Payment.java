@@ -1,10 +1,9 @@
 package com.food_application.model;
 
-<<<<<<< HEAD
+
 import java.sql.Timestamp;
 
-=======
->>>>>>> 0c9c09f47493e717ad427f5ae69f05b355c0e9a6
+
 public class Payment {
 
     private int paymentId;
@@ -12,7 +11,7 @@ public class Payment {
     private double amount;
     private String paymentMethod;
     private String paymentStatus;
-<<<<<<< HEAD
+
     private Timestamp paymentDate;
     public Timestamp getPaymentDate() {
 		return paymentDate;
@@ -23,10 +22,9 @@ public class Payment {
 	}
 
 	public Payment() {
-=======
 
-    public Payment() {
->>>>>>> 0c9c09f47493e717ad427f5ae69f05b355c0e9a6
+
+    
     }
 
     public Payment(int paymentId,
@@ -81,8 +79,5 @@ public class Payment {
     public void setPaymentStatus(String paymentStatus) {
         this.paymentStatus = paymentStatus;
     }
-<<<<<<< HEAD
-    
-=======
->>>>>>> 0c9c09f47493e717ad427f5ae69f05b355c0e9a6
+
 }

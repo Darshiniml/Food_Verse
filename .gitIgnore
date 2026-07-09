@@ -22,5 +22,6 @@ bin/
 Thumbs.db
 
 # Local configuration
-src/main/resources/razorpay.properties
-src/main/resources/email.properties
+ src/test/resources/razorpay.properties
+ src/test/resources/email.properties
+ src/test/resources/gemini.properties

@@ -525,21 +525,10 @@ for(Restaurant restaurant:restaurants){
 
 </p>
 
-<<<<<<< HEAD
 <a href="menu?restaurantId=<%=restaurant.getRestaurantId()%>">
     <button class="btn">
         Explore Restaurant
     </button>
-=======
-<a href="restaurant?restaurantId=<%=restaurant.getRestaurantId()%>">
-
-<button class="btn">
-
-Explore Restaurant
-
-</button>
-
->>>>>>> 0c9c09f47493e717ad427f5ae69f05b355c0e9a6
 </a>
 
 </div>

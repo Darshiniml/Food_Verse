@@ -45,20 +45,6 @@ public class PlaceOrderServlet extends HttpServlet {
         User user = (User) session.getAttribute("loggedUser");
         Cart cart = (Cart) session.getAttribute("cart");
 
-<<<<<<< HEAD
-        if (user == null || cart == null || cart.getItems().isEmpty()) {
-            response.sendRedirect("login.jsp");
-            return;
-        }
-
-        String address = (String) session.getAttribute("deliveryAddress");
-
-        if (address == null || address.trim().isEmpty()) {
-            address = request.getParameter("address");
-        }
-
-        if (address == null || address.trim().isEmpty()) {
-=======
         if(user == null || cart == null || cart.getItems().isEmpty()) {
 
             response.sendRedirect("login.jsp");
@@ -71,24 +57,10 @@ public class PlaceOrderServlet extends HttpServlet {
         String paymentMethod = request.getParameter("paymentMethod");
 
         if (address == null || address.trim().isEmpty() || paymentMethod == null || paymentMethod.trim().isEmpty()) {
->>>>>>> 0c9c09f47493e717ad427f5ae69f05b355c0e9a6
             response.sendRedirect("checkout.jsp?error=1");
             return;
         }
 
-<<<<<<< HEAD
-        String razorpayPaymentId =
-                (String) request.getAttribute("paymentId");
-
-        String paymentStatus =
-                (String) request.getAttribute("paymentStatus");
-
-        if (paymentStatus == null) {
-            paymentStatus = "SUCCESS";
-        }
-
-=======
->>>>>>> 0c9c09f47493e717ad427f5ae69f05b355c0e9a6
         OrderDAO orderDAO = new OrderDAOImpl();
         OrderItemDAO orderItemDAO = new OrderItemDAOImpl();
         PaymentDAO paymentDAO = new PaymentDAOImpl();
@@ -97,121 +69,6 @@ public class PlaceOrderServlet extends HttpServlet {
         int orderId = 0;
 
         try {
-<<<<<<< HEAD
-
-            connection = DBConnection.getConnection();
-
-            connection.setAutoCommit(false);
-
-            Order order = new Order();
-
-            order.setUserId(user.getUserId());
-
-            int restaurantId =
-                    cart.getItems()
-                        .iterator()
-                        .next()
-                        .getFoodItem()
-                        .getRestaurantId();
-
-            order.setRestaurantId(restaurantId);
-
-            order.setTotalAmount(cart.getGrandTotal());
-
-            order.setStatus("PENDING");
-
-            order.setDeliveryAddress(address);
-
-            orderId = orderDAO.addOrder(order);
-
-            for (CartItem item : cart.getItems()) {
-
-                OrderItem orderItem = new OrderItem();
-
-                orderItem.setOrderId(orderId);
-
-                orderItem.setFoodId(item.getFoodItem().getFoodId());
-
-                orderItem.setQuantity(item.getQuantity());
-
-                orderItem.setSubtotal(item.getTotalPrice());
-
-                orderItemDAO.addOrderItem(orderItem);
-
-            }
-
-            Payment payment = new Payment();
-
-            payment.setOrderId(orderId);
-
-            payment.setAmount(cart.getGrandTotal());
-
-            payment.setPaymentMethod("RAZORPAY");
-
-            payment.setPaymentStatus(paymentStatus);
-
-            paymentDAO.addPayment(payment);
-
-            connection.commit();
-
-            session.removeAttribute("cart");
-
-            session.removeAttribute("deliveryAddress");
-
-            request.setAttribute("orderId", orderId);
-
-            request.setAttribute("paymentId", razorpayPaymentId);
-
-            request.getRequestDispatcher("orderSuccess.jsp")
-                    .forward(request, response);
-
-        }
-
-        catch (Exception e) {
-
-            if (connection != null) {
-
-                try {
-
-                    connection.rollback();
-
-                }
-
-                catch (SQLException ex) {
-
-                    ex.printStackTrace();
-
-                }
-
-            }
-
-            e.printStackTrace();
-
-            response.sendRedirect("checkout.jsp?error=1");
-
-        }
-
-        finally {
-
-            if (connection != null) {
-
-                try {
-
-                    connection.setAutoCommit(true);
-
-                    connection.close();
-
-                }
-
-                catch (SQLException ex) {
-
-                    ex.printStackTrace();
-
-                }
-
-            }
-
-=======
             connection = DBConnection.getConnection();
             if (connection == null) {
                 throw new SQLException("Database connection is null");
@@ -271,7 +128,6 @@ public class PlaceOrderServlet extends HttpServlet {
                     closeEx.printStackTrace();
                 }
             }
->>>>>>> 0c9c09f47493e717ad427f5ae69f05b355c0e9a6
         }
 
     }

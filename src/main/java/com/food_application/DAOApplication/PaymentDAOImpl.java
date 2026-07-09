@@ -19,7 +19,7 @@ public class PaymentDAOImpl implements PaymentDAO {
         con = DBConnection.getConnection();
 
     }
-<<<<<<< HEAD
+
     @Override
     public double getTotalRevenue() {
 
@@ -192,9 +192,7 @@ public class PaymentDAOImpl implements PaymentDAO {
         return revenue;
 
     }
-=======
 
->>>>>>> 0c9c09f47493e717ad427f5ae69f05b355c0e9a6
     @Override
     public void addPayment(Payment payment) {
 

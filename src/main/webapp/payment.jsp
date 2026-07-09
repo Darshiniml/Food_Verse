@@ -1,23 +1,29 @@
-<<<<<<< HEAD
-<%@page language="java"
+<%@ page language="java"
 contentType="text/html;charset=UTF-8"
 pageEncoding="UTF-8"%>
-<jsp:include page="admin/includes/chatbot.jsp"/>
-<%@page import="org.json.JSONObject"%>
 
 <%
-String key = (String) request.getAttribute("key");
-String orderJson = (String) request.getAttribute("razorpayOrder");
+String key=(String)request.getAttribute("key");
 
-if(key == null || orderJson == null){
-    response.sendRedirect("checkout.jsp");
-    return;
+String orderId=(String)request.getAttribute("razorpayOrderId");
+
+Double amount=(Double)request.getAttribute("amount");
+
+String customerName=(String)request.getAttribute("customerName");
+
+String customerEmail=(String)request.getAttribute("customerEmail");
+
+String customerPhone=(String)request.getAttribute("customerPhone");
+
+if(key==null||orderId==null||amount==null){
+
+response.sendRedirect("checkout.jsp");
+
+return;
+
 }
 
-JSONObject order = new JSONObject(orderJson);
-
-String orderId = order.getString("id");
-int amount = order.getInt("amount");
+int razorpayAmount=(int)(amount*100);
 %>
 
 <!DOCTYPE html>
@@ -33,12 +39,10 @@ int amount = order.getInt("amount");
 <meta name="viewport"
 content="width=device-width, initial-scale=1">
 
-<link
-href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 rel="stylesheet">
 
-<link
-rel="stylesheet"
+<link rel="stylesheet"
 href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
@@ -47,9 +51,7 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
 
 body{
 
-background:#F8FAFC;
-
-font-family:Segoe UI;
+background:#f4f7fc;
 
 display:flex;
 
@@ -59,9 +61,11 @@ align-items:center;
 
 height:100vh;
 
+font-family:Poppins,sans-serif;
+
 }
 
-.card-box{
+.payment-card{
 
 width:500px;
 
@@ -71,7 +75,7 @@ padding:40px;
 
 border-radius:20px;
 
-box-shadow:0 10px 25px rgba(0,0,0,.12);
+box-shadow:0 10px 30px rgba(0,0,0,.15);
 
 text-align:center;
 
@@ -79,25 +83,25 @@ text-align:center;
 
 .logo{
 
-font-size:32px;
+font-size:34px;
 
 font-weight:bold;
 
-color:#FF6B35;
+color:#4F46E5;
 
-margin-bottom:20px;
+margin-bottom:15px;
 
 }
 
 .amount{
 
-font-size:40px;
+font-size:42px;
 
 font-weight:bold;
 
-color:#198754;
+color:#16A34A;
 
-margin:25px 0;
+margin:20px 0;
 
 }
 
@@ -111,15 +115,7 @@ font-size:18px;
 
 font-weight:bold;
 
-border-radius:10px;
-
-}
-
-.info{
-
-margin-top:20px;
-
-color:#6C757D;
+border-radius:12px;
 
 }
 
@@ -129,7 +125,7 @@ color:#6C757D;
 
 <body>
 
-<div class="card-box">
+<div class="payment-card">
 
 <div class="logo">
 
@@ -139,24 +135,26 @@ color:#6C757D;
 
 <h3>
 
-Complete Your Payment
+Complete Payment
 
 </h3>
 
 <p class="text-muted">
 
-Secure Payment Powered by Razorpay
+Powered by Razorpay
 
 </p>
 
 <div class="amount">
 
-₹ <%=amount/100%>
+₹ <%=String.format("%.2f",amount)%>
 
 </div>
 
 <button
+
 class="btn btn-success btn-pay"
+
 onclick="payNow()">
 
 <i class="bi bi-credit-card-fill"></i>
@@ -164,14 +162,6 @@ onclick="payNow()">
 Pay Now
 
 </button>
-
-<div class="info">
-
-<i class="bi bi-shield-lock-fill"></i>
-
-100% Secure Payment
-
-</div>
 
 </div>
 
@@ -181,27 +171,35 @@ function payNow(){
 
 var options={
 
-"key":"<%=key%>",
+key:"<%=key%>",
 
-"amount":"<%=amount%>",
+amount:"<%=razorpayAmount%>",
 
-"currency":"INR",
+currency:"INR",
 
-"name":"FoodVerse",
+name:"FoodVerse",
 
-"description":"Food Order Payment",
+description:"Food Order Payment",
 
-"image":"https://cdn-icons-png.flaticon.com/512/3075/3075977.png",
+order_id:"<%=orderId%>",
 
-"order_id":"<%=orderId%>",
+prefill:{
 
-"theme":{
+name:"<%=customerName%>",
 
-"color":"#FF6B35"
+email:"<%=customerEmail%>",
+
+contact:"<%=customerPhone%>"
 
 },
 
-"handler":function(response){
+theme:{
+
+color:"#4F46E5"
+
+},
+
+handler:function(response){
 
 window.location.href=
 
@@ -211,19 +209,25 @@ window.location.href=
 
 "razorpay_payment_id="
 
-+response.razorpay_payment_id
++
+
+response.razorpay_payment_id
 
 +
 
 "&razorpay_order_id="
 
-+response.razorpay_order_id
++
+
+response.razorpay_order_id
 
 +
 
 "&razorpay_signature="
 
-+response.razorpay_signature;
++
+
+response.razorpay_signature;
 
 }
 
@@ -231,11 +235,9 @@ window.location.href=
 
 var rzp=new Razorpay(options);
 
-rzp.on('payment.failed',function(response){
+rzp.on("payment.failed",function(){
 
 alert("Payment Failed");
-
-console.log(response.error);
 
 });
 
@@ -247,37 +249,4 @@ rzp.open();
 
 </body>
 
-=======
-<!DOCTYPE html>
-<html>
-<head>
-<title>Payment</title>
-</head>
-<body>
-
-<h1>Payment</h1>
-
-<form action="payment" method="post">
-
-<select name="paymentMethod">
-
-<option>UPI</option>
-
-<option>Credit Card</option>
-
-<option>Debit Card</option>
-
-<option>Cash On Delivery</option>
-
-</select>
-
-<br><br>
-
-<input type="submit"
-value="Pay Now">
-
-</form>
-
-</body>
->>>>>>> 0c9c09f47493e717ad427f5ae69f05b355c0e9a6
 </html>

@@ -1,17 +1,16 @@
-<<<<<<< HEAD
+
 <%@page language="java"
 contentType="text/html;charset=UTF-8"
 pageEncoding="UTF-8"%>
 
-=======
->>>>>>> 0c9c09f47493e717ad427f5ae69f05b355c0e9a6
+
 <%@page import="java.util.List"%>
 <%@page import="com.food_application.model.Restaurant"%>
 
 <%
 List<Restaurant> restaurants =
 (List<Restaurant>)request.getAttribute("restaurants");
-<<<<<<< HEAD
+
 %>
 
 <!DOCTYPE html>
@@ -635,6 +634,4 @@ document.querySelectorAll("#restaurantTable tbody tr")
 </body>
 
 </html>
-=======
-%>
->>>>>>> 0c9c09f47493e717ad427f5ae69f05b355c0e9a6
+

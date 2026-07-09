@@ -18,7 +18,7 @@ public interface FoodItemDAO {
 
     void deleteFoodItem(int foodId);
     int getFoodItemCount();
-<<<<<<< HEAD
+
     List<FoodItem> getFoodByCategory(String category);
 
     List<FoodItem> getFoodUnderPrice(double price);
@@ -26,7 +26,5 @@ public interface FoodItemDAO {
     List<FoodItem> searchFood(String keyword);
 
     List<FoodItem> getFoodByCategoryAndPrice(String category,double price);
-=======
 
->>>>>>> 0c9c09f47493e717ad427f5ae69f05b355c0e9a6
 }

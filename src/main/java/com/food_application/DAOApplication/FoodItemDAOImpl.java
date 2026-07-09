@@ -235,7 +235,7 @@ public class FoodItemDAOImpl implements FoodItemDAO {
 
 	    }
 
-<<<<<<< HEAD
+
 	@Override
 	public List<FoodItem> getFoodByCategory(String category){
 
@@ -409,9 +409,9 @@ public class FoodItemDAOImpl implements FoodItemDAO {
 	    return foods;
 
 	}
-=======
+
 
 	
 
->>>>>>> 0c9c09f47493e717ad427f5ae69f05b355c0e9a6
+
 }

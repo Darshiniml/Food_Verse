@@ -17,7 +17,7 @@ public interface PaymentDAO {
     void updatePayment(Payment payment);
 
     void deletePayment(int paymentId);
-<<<<<<< HEAD
+
     double getTotalRevenue();
 
     int getTotalPayments();
@@ -29,7 +29,6 @@ public interface PaymentDAO {
     double getTodayRevenue();
 
     double getMonthlyRevenue();
-=======
->>>>>>> 0c9c09f47493e717ad427f5ae69f05b355c0e9a6
+
 
 }

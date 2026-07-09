@@ -1,7 +1,6 @@
-<<<<<<< HEAD
+
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
-=======
->>>>>>> 0c9c09f47493e717ad427f5ae69f05b355c0e9a6
+
 <%@page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 

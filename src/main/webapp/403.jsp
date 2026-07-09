@@ -1,12 +1,12 @@
-<<<<<<< HEAD
+
 
 <!DOCTYPE html>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %><html>
-=======
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
->>>>>>> 0c9c09f47493e717ad427f5ae69f05b355c0e9a6
+
 <head>
     <meta charset="UTF-8">
     <title>Access Denied</title>

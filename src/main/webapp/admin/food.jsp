@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 
-=======
->>>>>>> 0c9c09f47493e717ad427f5ae69f05b355c0e9a6
 <%@page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 
@@ -99,19 +96,11 @@ width:300px;
 
 <body>
 
-<<<<<<< HEAD
 
 
 <div class="main">
 
 
-=======
-<%@include file="includes/sidebar.jsp"%>
-
-<div class="main">
-
-<%@include file="includes/navbar.jsp"%>
->>>>>>> 0c9c09f47493e717ad427f5ae69f05b355c0e9a6
 
 <div class="page">
 

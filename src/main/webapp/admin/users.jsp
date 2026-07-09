@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 
 
-=======
->>>>>>> 0c9c09f47493e717ad427f5ae69f05b355c0e9a6
 <%@page language="java"
 contentType="text/html;charset=UTF-8"
 pageEncoding="UTF-8"%>
@@ -114,21 +111,8 @@ background:#EA580C;
 
 <body>
 
-<<<<<<< HEAD
 
 
-<div class="main">
-
-
-=======
-<%@include file="includes/sidebar.jsp"%>
-
-<div class="main">
-
-<%@include file="includes/navbar.jsp"%>
->>>>>>> 0c9c09f47493e717ad427f5ae69f05b355c0e9a6
-
-<div class="container-fluid">
 
 <div class="d-flex
 justify-content-between
@@ -288,7 +272,6 @@ for(User user:users){
 
 String role = user.getRole();
 
-<<<<<<< HEAD
 // Null Safety
 if(role == null || role.trim().isEmpty()){
 
@@ -310,60 +293,15 @@ if("ADMIN".equalsIgnoreCase(role)){
 
     css = "delivery";
 
-=======
-String css = "";
-
-switch(role){
-
-case "ADMIN":
-
-    css = "admin";
-
-    break;
-
-case "CUSTOMER":
-
-    css = "customer";
-
-    break;
-
-case "RESTAURANT":
-
-    css = "restaurant";
-
-    break;
-
-case "DELIVERY_AGENT":
-
-    css = "delivery";
-
-    break;
-
-default:
-
-    css = "customer";
-
->>>>>>> 0c9c09f47493e717ad427f5ae69f05b355c0e9a6
 }
 
 %>
 
 <span class="role <%=css%>">
 
-<<<<<<< HEAD
 <%=role.replace("_"," ")%>
 
 </span>
-=======
-<%=role%>
-
-</span>
-
-</td>
-
-<td>
-
->>>>>>> 0c9c09f47493e717ad427f5ae69f05b355c0e9a6
 <%
 
 User loggedUser =

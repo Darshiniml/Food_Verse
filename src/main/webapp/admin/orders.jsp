@@ -1,10 +1,4 @@
-<<<<<<< HEAD
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
-=======
-<%@page language="java"
-contentType="text/html;charset=UTF-8"
-pageEncoding="UTF-8"%>
->>>>>>> 0c9c09f47493e717ad427f5ae69f05b355c0e9a6
 
 <%@page import="java.util.List"%>
 <%@page import="com.food_application.model.Order"%>
@@ -114,19 +108,11 @@ background:#EF4444;
 
 <body>
 
-<<<<<<< HEAD
 
 
 <div class="main">
 
 
-=======
-<%@include file="includes/sidebar.jsp"%>
-
-<div class="main">
-
-<%@include file="includes/navbar.jsp"%>
->>>>>>> 0c9c09f47493e717ad427f5ae69f05b355c0e9a6
 
 <div class="page">
 

@@ -1,8 +1,6 @@
-
 <%@page language="java"
 contentType="text/html;charset=UTF-8"
 pageEncoding="UTF-8"%>
-
 
 <%@page import="java.util.List"%>
 <%@page import="com.food_application.model.Restaurant"%>
@@ -10,7 +8,6 @@ pageEncoding="UTF-8"%>
 <%
 List<Restaurant> restaurants =
 (List<Restaurant>)request.getAttribute("restaurants");
-
 %>
 
 <!DOCTYPE html>
@@ -83,11 +80,9 @@ vertical-align:middle;
 
 <body>
 
-<%@include file="admin/includes/sidebar.jsp"%>
 
 <div class="main">
 
-<%@include file="admin/includes/navbar.jsp"%>
 
 <div class="content">
 
@@ -113,7 +108,8 @@ Manage all partner restaurants.
 </div>
 
 <a
-href="<%=request.getContextPath()%>/admin/addRestaurant.jsp">
+href="<%=request.getContextPath()%>/admin/addRestaurant.jsp"
+class="btn btn-orange">
 
 <i class="bi bi-plus-circle-fill"></i>
 
@@ -284,7 +280,7 @@ There are no restaurants available.
 </p>
 
 <a
-href="addRestaurant.jsp"
+href="addRestaurant"
 class="btn btn-orange">
 
 Add Restaurant
@@ -385,23 +381,8 @@ Overall Rating
 
 <div class="card-box text-center">
 
-<h6>
 
-Quick Action
 
-</h6>
-
-<a
-
-href="addRestaurant.jsp"
-
-class="btn btn-success mt-2">
-
-<i class="bi bi-plus-circle-fill"></i>
-
-Add New Restaurant
-
-</a>
 
 </div>
 
@@ -634,4 +615,3 @@ document.querySelectorAll("#restaurantTable tbody tr")
 </body>
 
 </html>
-

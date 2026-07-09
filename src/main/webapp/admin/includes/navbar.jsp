@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.food_application.model.User"%>
 
@@ -9,44 +8,33 @@ User admin = (User) session.getAttribute("loggedUser");
 <div class="topbar">
 
     <div>
-        <h4 style="margin:0;">Admin Dashboard</h4>
+        <h3 style="margin:0;font-weight:700;">
+            Admin Dashboard
+        </h3>
     </div>
 
     <div class="admin-info">
 
-        <i class="bi bi-person-circle"></i>
+        <i class="bi bi-person-circle fs-2"></i>
 
-        <div>
+        <div class="ms-2">
 
-            <b><%=admin != null ? admin.getName() : "Administrator"%></b>
+            <strong>
+
+                <%=admin!=null?admin.getName():"Administrator"%>
+
+            </strong>
 
             <br>
 
-            <small style="color:gray;">
+            <small class="text-muted">
+
                 System Administrator
+
             </small>
 
         </div>
 
     </div>
-=======
-<div class="topbar">
-
-<div>
-
-<h3>
-
-Admin Dashboard
-
-</h3>
-
-</div>
-
-<div>
-
-Welcome Admin
-
-</div>
->>>>>>> 0c9c09f47493e717ad427f5ae69f05b355c0e9a6
 
 </div>

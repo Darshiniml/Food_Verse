@@ -63,11 +63,10 @@ padding:5px;
 
 <body>
 
-<%@include file="includes/sidebar.jsp"%>
+
 
 <div class="main">
 
-<%@include file="includes/navbar.jsp"%>
 
 <div class="content">
 

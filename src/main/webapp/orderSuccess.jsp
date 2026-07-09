@@ -78,7 +78,23 @@ animation:popup .6s ease;
 }
 
 /* Success Icon */
+.btn-danger{
 
+padding:12px 30px;
+
+border-radius:12px;
+
+font-weight:600;
+
+text-decoration:none;
+
+}
+
+.btn-danger:hover{
+
+transform:translateY(-2px);
+
+}
 .icon{
 
 width:120px;
@@ -318,7 +334,6 @@ Preparing Your Order
 <div class="buttons">
 
 <a href="home"
-
 class="btn-home">
 
 <i class="bi bi-house-fill"></i>
@@ -328,7 +343,6 @@ Continue Shopping
 </a>
 
 <a href="myOrders"
-
 class="btn-orders">
 
 <i class="bi bi-bag-check-fill"></i>
@@ -337,8 +351,16 @@ My Orders
 
 </a>
 
-</div>
+<a href="downloadInvoice?orderId=<%=orderId%>"
+class="btn btn-danger">
 
+<i class="bi bi-file-earmark-pdf-fill"></i>
+
+Download Invoice
+
+</a>
+
+</div>
 </div>
 
 </body>

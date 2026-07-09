@@ -1,6 +1,4 @@
-<%@ page language="java"
-contentType="text/html;charset=UTF-8"
-pageEncoding="UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
 
 <!DOCTYPE html>
 
@@ -15,25 +13,33 @@ pageEncoding="UTF-8"%>
 <meta name="viewport"
 content="width=device-width, initial-scale=1">
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+<link
+href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 rel="stylesheet">
 
-<link rel="stylesheet"
-href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+<link
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+rel="stylesheet">
 
 <style>
 
 *{
 
 margin:0;
+
 padding:0;
+
 box-sizing:border-box;
+
+font-family:'Segoe UI',sans-serif;
 
 }
 
 body{
 
-font-family:'Segoe UI',sans-serif;
+background:linear-gradient(135deg,#ff6b35,#ff914d);
+
+height:100vh;
 
 display:flex;
 
@@ -41,86 +47,45 @@ justify-content:center;
 
 align-items:center;
 
-min-height:100vh;
-
-background:linear-gradient(135deg,
-#0F172A,
-#1E3A8A,
-#38BDF8);
-
-overflow:hidden;
-
-}
-
-.circle{
-
-position:absolute;
-
-border-radius:50%;
-
-filter:blur(90px);
-
-opacity:.25;
-
-}
-
-.c1{
-
-width:320px;
-
-height:320px;
-
-background:#60A5FA;
-
-top:-100px;
-
-left:-100px;
-
-}
-
-.c2{
-
-width:280px;
-
-height:280px;
-
-background:#A855F7;
-
-bottom:-80px;
-
-right:-80px;
-
 }
 
 .login-card{
 
-width:100%;
+width:500px;
 
-max-width:450px;
+background:white;
 
-padding:40px;
+padding:45px;
 
-border-radius:22px;
+border-radius:20px;
 
-background:rgba(255,255,255,.12);
+box-shadow:0 15px 40px rgba(0,0,0,.25);
 
-backdrop-filter:blur(18px);
-
-box-shadow:0 10px 35px rgba(0,0,0,.25);
-
-color:white;
+animation:fadeIn .5s ease;
 
 }
 
 .logo{
 
-font-size:36px;
+text-align:center;
 
-font-weight:bold;
+font-size:42px;
+
+color:#ff6b35;
+
+margin-bottom:10px;
+
+}
+
+.title{
 
 text-align:center;
 
-margin-bottom:10px;
+font-size:30px;
+
+font-weight:bold;
+
+margin-bottom:5px;
 
 }
 
@@ -128,65 +93,59 @@ margin-bottom:10px;
 
 text-align:center;
 
-color:#E2E8F0;
+color:#777;
 
 margin-bottom:30px;
 
 }
 
-.form-control{
+.form-label{
 
-height:52px;
-
-border-radius:12px;
-
-background:rgba(255,255,255,.15);
-
-border:1px solid rgba(255,255,255,.2);
-
-color:white;
-
-}
-
-.form-control::placeholder{
-
-color:#CBD5E1;
-
-}
-
-.form-control:focus{
-
-background:rgba(255,255,255,.20);
-
-color:white;
-
-border-color:#93C5FD;
-
-box-shadow:none;
+font-weight:600;
 
 }
 
 .input-group-text{
 
-background:rgba(255,255,255,.15);
+background:#fff3ed;
 
 border:none;
 
-color:white;
+color:#ff6b35;
+
+}
+
+.form-control{
+
+height:50px;
+
+border-radius:10px;
+
+}
+
+.form-control:focus{
+
+border-color:#ff6b35;
+
+box-shadow:0 0 0 .2rem rgba(255,107,53,.15);
 
 }
 
 .btn-login{
 
-height:50px;
+background:#ff6b35;
+
+color:white;
+
+font-size:18px;
+
+font-weight:bold;
+
+padding:12px;
 
 border:none;
 
-border-radius:12px;
-
-background:#2563EB;
-
-font-weight:bold;
+border-radius:10px;
 
 transition:.3s;
 
@@ -194,23 +153,61 @@ transition:.3s;
 
 .btn-login:hover{
 
-background:#1D4ED8;
+background:#ff4f00;
+
+color:white;
 
 transform:translateY(-2px);
 
 }
 
-a{
+.extra-links{
 
-color:#BFDBFE;
+text-align:center;
 
-text-decoration:none;
+margin-top:20px;
 
 }
 
-a:hover{
+.extra-links a{
 
-color:white;
+text-decoration:none;
+
+font-weight:600;
+
+color:#ff6b35;
+
+}
+
+.extra-links a:hover{
+
+text-decoration:underline;
+
+}
+
+.alert{
+
+border-radius:10px;
+
+}
+
+@keyframes fadeIn{
+
+from{
+
+opacity:0;
+
+transform:translateY(25px);
+
+}
+
+to{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
 
 }
 
@@ -220,35 +217,36 @@ color:white;
 
 <body>
 
-<div class="circle c1"></div>
-
-<div class="circle c2"></div>
-
 <div class="login-card">
 
 <div class="logo">
 
-🍽 FoodVerse
+<i class="fa-solid fa-utensils"></i>
 
 </div>
 
-<p class="subtitle">
+<div class="title">
 
-Welcome Back
+FoodVerse Login
 
-</p>
+</div>
 
+<div class="subtitle">
+
+Welcome Back! Sign in to continue
+
+</div>
 <%
 
-if(request.getParameter("success")!=null){
+if(request.getParameter("error")!=null){
 
 %>
 
-<div class="alert alert-success">
+<div class="alert alert-danger text-center">
 
-Registration Successful!
+<i class="fa-solid fa-circle-exclamation"></i>
 
-Please Login.
+Invalid Email or Password
 
 </div>
 
@@ -256,13 +254,31 @@ Please Login.
 
 }
 
-if(request.getParameter("error")!=null){
+if(request.getParameter("logout")!=null){
 
 %>
 
-<div class="alert alert-danger">
+<div class="alert alert-success text-center">
 
-Invalid Email or Password
+<i class="fa-solid fa-circle-check"></i>
+
+Logged out successfully.
+
+</div>
+
+<%
+
+}
+
+if(request.getParameter("registered")!=null){
+
+%>
+
+<div class="alert alert-success text-center">
+
+<i class="fa-solid fa-user-check"></i>
+
+Registration Successful! Please Login.
 
 </div>
 
@@ -276,13 +292,17 @@ Invalid Email or Password
 
 <div class="mb-3">
 
-<label>Email</label>
+<label class="form-label">
+
+Email Address
+
+</label>
 
 <div class="input-group">
 
 <span class="input-group-text">
 
-<i class="bi bi-envelope-fill"></i>
+<i class="fa-solid fa-envelope"></i>
 
 </span>
 
@@ -294,7 +314,7 @@ name="email"
 
 class="form-control"
 
-placeholder="Enter Email"
+placeholder="Enter your email"
 
 required>
 
@@ -302,29 +322,33 @@ required>
 
 </div>
 
-<div class="mb-3">
+<div class="mb-4">
 
-<label>Password</label>
+<label class="form-label">
+
+Password
+
+</label>
 
 <div class="input-group">
 
 <span class="input-group-text">
 
-<i class="bi bi-lock-fill"></i>
+<i class="fa-solid fa-lock"></i>
 
 </span>
 
 <input
 
-id="password"
-
 type="password"
+
+id="password"
 
 name="password"
 
 class="form-control"
 
-placeholder="Enter Password"
+placeholder="Enter your password"
 
 required>
 
@@ -336,9 +360,11 @@ class="input-group-text"
 
 onclick="togglePassword()">
 
-<i id="eyeIcon"
+<i
 
-class="bi bi-eye">
+id="eyeIcon"
+
+class="fa-solid fa-eye">
 
 </i>
 
@@ -347,10 +373,8 @@ class="bi bi-eye">
 </div>
 
 </div>
-<div class="d-flex
-justify-content-between
-align-items-center
-mb-4">
+
+<div class="d-flex justify-content-between align-items-center mb-4">
 
 <div class="form-check">
 
@@ -360,9 +384,7 @@ class="form-check-input"
 
 type="checkbox"
 
-id="rememberMe"
-
-name="rememberMe">
+id="rememberMe">
 
 <label
 
@@ -384,229 +406,225 @@ Forgot Password?
 
 </div>
 
+<div class="d-grid">
+
 <button
 
 type="submit"
 
-class="btn btn-login w-100">
+class="btn btn-login">
 
-<i class="bi bi-box-arrow-in-right"></i>
+<i class="fa-solid fa-right-to-bracket"></i>
 
 Login
 
 </button>
 
-<div class="text-center mt-4">
+</div>
+
+<div class="extra-links">
+
+<hr>
 
 Don't have an account?
 
 <a href="register.jsp">
 
-<b>
-
 Create Account
-
-</b>
 
 </a>
 
 </div>
 
-<hr class="my-4" style="border-color:rgba(255,255,255,.2);">
-
-<div class="text-center">
-
-<p class="mb-3">
-
-Or continue with
-
-</p>
-
-<div class="d-flex
-justify-content-center
-gap-3">
-
-<button
-
-type="button"
-
-class="btn btn-light rounded-circle"
-
-style="width:50px;height:50px;">
-
-<i class="bi bi-google text-danger"></i>
-
-</button>
-
-<button
-
-type="button"
-
-class="btn btn-light rounded-circle"
-
-style="width:50px;height:50px;">
-
-<i class="bi bi-facebook text-primary"></i>
-
-</button>
-
-<button
-
-type="button"
-
-class="btn btn-light rounded-circle"
-
-style="width:50px;height:50px;">
-
-<i class="bi bi-github"></i>
-
-</button>
-
-</div>
-
-</div>
-
-<div class="text-center mt-4">
-
-<small style="color:#CBD5E1;">
-
-Secure Login Protected by BCrypt Encryption
-
-</small>
-
-</div>
 </form>
-
-</div>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
 
-/*=====================================
-        SHOW PASSWORD
-=====================================*/
+/*==================================
+      SHOW / HIDE PASSWORD
+==================================*/
 
 function togglePassword(){
 
-    const password =
-    document.getElementById("password");
+const password=document.getElementById("password");
 
-    const eye =
-    document.getElementById("eyeIcon");
+const eye=document.getElementById("eyeIcon");
 
-    if(password.type==="password"){
+if(password.type==="password"){
 
-        password.type="text";
+password.type="text";
 
-        eye.classList.remove("bi-eye");
+eye.classList.remove("fa-eye");
 
-        eye.classList.add("bi-eye-slash");
+eye.classList.add("fa-eye-slash");
 
-    }
-    else{
+}
+else{
 
-        password.type="password";
+password.type="password";
 
-        eye.classList.remove("bi-eye-slash");
+eye.classList.remove("fa-eye-slash");
 
-        eye.classList.add("bi-eye");
-
-    }
+eye.classList.add("fa-eye");
 
 }
 
+}
 
-/*=====================================
-      INPUT ANIMATION
-=====================================*/
+/*==================================
+      PRESS ENTER TO LOGIN
+==================================*/
 
-const inputs=document.querySelectorAll(".form-control");
+document.addEventListener("keydown",function(e){
 
-inputs.forEach(function(input){
+if(e.key==="Enter"){
 
-    input.addEventListener("focus",function(){
+document.querySelector("form").submit();
 
-        this.style.transform="scale(1.02)";
-        this.style.transition=".25s";
-
-    });
-
-    input.addEventListener("blur",function(){
-
-        this.style.transform="scale(1)";
-
-    });
+}
 
 });
 
+/*==================================
+      INPUT ANIMATION
+==================================*/
 
-/*=====================================
-      TOAST MESSAGE
-=====================================*/
+document.querySelectorAll(".form-control")
 
-const params=new URLSearchParams(window.location.search);
+.forEach(function(input){
 
-if(params.get("success")){
+input.addEventListener("focus",function(){
 
-    showToast(
-    "Registration Successful! Please Login.",
-    "success");
+this.style.transform="scale(1.02)";
+
+this.style.transition=".25s";
+
+});
+
+input.addEventListener("blur",function(){
+
+this.style.transform="scale(1)";
+
+});
+
+});
+
+/*==================================
+      AUTO HIDE ALERTS
+==================================*/
+
+setTimeout(function(){
+
+const alerts=document.querySelectorAll(".alert");
+
+alerts.forEach(function(alert){
+
+alert.style.transition=".5s";
+
+alert.style.opacity="0";
+
+setTimeout(function(){
+
+alert.remove();
+
+},500);
+
+});
+
+},3000);
+
+/*==================================
+      BUTTON RIPPLE EFFECT
+==================================*/
+
+const btn=document.querySelector(".btn-login");
+
+btn.addEventListener("click",function(e){
+
+const circle=document.createElement("span");
+
+const diameter=Math.max(
+
+btn.clientWidth,
+
+btn.clientHeight
+
+);
+
+const radius=diameter/2;
+
+circle.style.width=
+
+circle.style.height=
+
+diameter+"px";
+
+circle.style.left=
+
+e.clientX-btn.offsetLeft-radius+"px";
+
+circle.style.top=
+
+e.clientY-btn.offsetTop-radius+"px";
+
+circle.classList.add("ripple");
+
+const ripple=
+
+btn.getElementsByClassName("ripple")[0];
+
+if(ripple){
+
+ripple.remove();
 
 }
 
-if(params.get("error")){
+btn.appendChild(circle);
 
-    showToast(
-    "Invalid Email or Password.",
-    "danger");
-
-}
-
-function showToast(message,type){
-
-    const toast=document.createElement("div");
-
-    toast.style.position="fixed";
-    toast.style.top="20px";
-    toast.style.right="20px";
-    toast.style.zIndex="9999";
-
-    toast.innerHTML=`
-
-    <div class="toast show text-bg-${type} border-0">
-
-        <div class="d-flex">
-
-            <div class="toast-body">
-
-                ${message}
-
-            </div>
-
-            <button
-            type="button"
-            class="btn-close btn-close-white me-2 m-auto"
-            data-bs-dismiss="toast">
-            </button>
-
-        </div>
-
-    </div>
-
-    `;
-
-    document.body.appendChild(toast);
-
-    setTimeout(function(){
-
-        toast.remove();
-
-    },3000);
-
-}
+});
 
 </script>
+
+<style>
+
+.btn-login{
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+.ripple{
+
+position:absolute;
+
+border-radius:50%;
+
+transform:scale(0);
+
+background:rgba(255,255,255,.6);
+
+animation:ripple .6s linear;
+
+}
+
+@keyframes ripple{
+
+to{
+
+transform:scale(4);
+
+opacity:0;
+
+}
+
+}
+
+</style>
+
+</div>
 
 </body>
 

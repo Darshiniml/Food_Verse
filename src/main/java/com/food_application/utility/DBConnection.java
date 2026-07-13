@@ -15,18 +15,18 @@ public class DBConnection {
             System.getProperty("foodverse.db.url",
                     System.getenv().getOrDefault(
                             "FOODVERSE_DB_URL",
-                            "jdbc:mysql://localhost:3306/food_app"));
+                            ""));
 
     private static final String USERNAME =
             System.getProperty("foodverse.db.username",
                     System.getenv().getOrDefault(
                             "FOODVERSE_DB_USERNAME",
-                            "root"));
+                            ""));
     private static final String PASSWORD =
             System.getProperty("foodverse.db.password",
                     System.getenv().getOrDefault(
                             "FOODVERSE_DB_PASSWORD",
-                            "Darsh123"));
+                            ""));
     private static final ThreadLocal<Connection> BOUND_CONNECTION =
             new ThreadLocal<>();
 

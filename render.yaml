@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: food-verse
+    env: docker
+    plan: free
+    region: oregon
+    branch: main
+    autoDeploy: true
+    healthCheckPath: /
+    envVars:
+      - key: FOODVERSE_DB_URL
+        sync: false
+      - key: FOODVERSE_DB_USERNAME
+        sync: false
+      - key: FOODVERSE_DB_PASSWORD
+        sync: false
+      - key: RAZORPAY_KEY_ID
+        sync: false
+      - key: RAZORPAY_KEY_SECRET
+        sync: false

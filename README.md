@@ -225,6 +225,29 @@ http://localhost:8080/FoodVerse
 
 ---
 
+## Deploy on Render
+
+FoodVerse now includes a `Dockerfile` and `render.yaml`, so you can deploy it as a Render web service.
+
+### Required environment variables
+
+- `FOODVERSE_DB_URL`
+- `FOODVERSE_DB_USERNAME`
+- `FOODVERSE_DB_PASSWORD`
+- `RAZORPAY_KEY_ID`
+- `RAZORPAY_KEY_SECRET`
+
+### Steps
+
+1. Push the repo to GitHub.
+2. Create a new **Web Service** on Render.
+3. Choose **Docker** as the environment.
+4. Point Render to the repository root.
+5. Add the environment variables above.
+6. Deploy and open the generated `onrender.com` URL.
+
+---
+
 # 📸 Screenshots
 
 - Login Page

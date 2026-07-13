@@ -3,8 +3,14 @@ package com.food_application.payment;
 public class RazorpayConfig {
 
     public static final String KEY_ID =
-            "rzp_test_TBQ2AwXytDmIgO";
+            System.getProperty("foodverse.razorpay.keyId",
+                    System.getenv().getOrDefault(
+                            "RAZORPAY_KEY_ID",
+                            ""));
 
     public static final String KEY_SECRET =
-            "mb585Q8Pq0UyhbThoUa63csm";
+            System.getProperty("foodverse.razorpay.keySecret",
+                    System.getenv().getOrDefault(
+                            "RAZORPAY_KEY_SECRET",
+                            ""));
 }

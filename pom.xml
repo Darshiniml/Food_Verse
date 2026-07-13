@@ -105,6 +105,7 @@
     <build>
 
         <finalName>FoodVerse</finalName>
+        <sourceDirectory>src/main/java</sourceDirectory>
 
         <plugins>
 

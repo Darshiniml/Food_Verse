@@ -1,211 +1,312 @@
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-<link rel="stylesheet"
-href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-<%@ page language="java"
-contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 
 <%@page import="com.food_application.model.Cart"%>
 <%@page import="com.food_application.model.CartItem"%>
 <%@page import="com.food_application.model.User"%>
 
 <%
-Cart cart=(Cart)session.getAttribute("cart");
-User user=(User)session.getAttribute("loggedUser");
+Cart cart = (Cart) session.getAttribute("cart");
+User user = (User) session.getAttribute("loggedUser");
 
-if(cart==null){
-    cart=new Cart();
+if(cart == null){
+    cart = new Cart();
 }
 %>
 
 <!DOCTYPE html>
 <html>
-
 <head>
 
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>My Cart</title>
+<title>FoodVerse | My Cart</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <link rel="stylesheet"
 href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
 rel="stylesheet">
 
 <style>
 
 *{
+margin:0;
+padding:0;
+box-sizing:border-box;
 font-family:'Poppins',sans-serif;
 }
 
 body{
-background:#f4f7fc;
+background:#F8FAFC;
+overflow-x:hidden;
 }
 
-/* Navbar */
+/*======================
+NAVBAR
+======================*/
 
 .navbar{
-
-background:white;
-
-box-shadow:0 2px 12px rgba(0,0,0,.08);
-
+background:#fff;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+padding:16px 0;
 }
 
 .navbar-brand{
+font-size:32px;
+font-weight:800;
+color:#F97316 !important;
+}
 
-font-size:28px;
+/*======================
+HERO
+======================*/
 
+.cart-banner{
+background:linear-gradient(135deg,#FF6B35,#FF914D);
+padding:50px;
+border-radius:25px;
+margin:35px 0;
+color:#fff;
+position:relative;
+overflow:hidden;
+}
+
+.cart-banner::before{
+content:"";
+position:absolute;
+width:220px;
+height:220px;
+background:rgba(255,255,255,.15);
+right:-70px;
+top:-70px;
+border-radius:50%;
+}
+
+.cart-banner h1{
+font-size:48px;
+font-weight:800;
+}
+
+.cart-banner p{
+margin-top:15px;
+font-size:18px;
+opacity:.95;
+}
+
+.banner-stats{
+display:flex;
+gap:40px;
+margin-top:30px;
+flex-wrap:wrap;
+}
+
+.banner-stat h3{
 font-weight:700;
-
-color:#4F46E5!important;
-
+margin-bottom:0;
 }
 
-/* Heading */
+/*======================
+SECTION TITLE
+======================*/
 
-.heading{
-
-text-align:center;
-
-padding:40px;
-
-}
-
-.heading h1{
-
+.section-title{
+font-size:36px;
 font-weight:700;
-
-color:#1e293b;
-
+margin-bottom:10px;
 }
 
-/* Cart Card */
+.section-sub{
+color:#64748B;
+margin-bottom:35px;
+}
+
+/*======================
+CART CARD
+======================*/
 
 .cart-card{
-
-background:white;
-
+background:#fff;
 border:none;
-
-border-radius:20px;
-
-box-shadow:0 10px 25px rgba(0,0,0,.08);
-
-margin-bottom:25px;
-
+border-radius:24px;
 overflow:hidden;
-
+box-shadow:0 15px 35px rgba(0,0,0,.08);
+margin-bottom:25px;
+transition:.3s;
 }
 
-.cart-card img{
+.cart-card:hover{
+transform:translateY(-6px);
+}
 
-height:170px;
+.food-image{
+position:relative;
+}
 
+.food-image img{
 width:100%;
-
+height:230px;
 object-fit:cover;
+}
 
+.ribbon{
+position:absolute;
+top:18px;
+left:18px;
+background:#EF4444;
+color:#fff;
+padding:8px 14px;
+border-radius:30px;
+font-size:13px;
+font-weight:600;
+}
+
+.favorite{
+position:absolute;
+right:18px;
+top:18px;
+width:45px;
+height:45px;
+background:#fff;
+display:flex;
+justify-content:center;
+align-items:center;
+border-radius:50%;
+cursor:pointer;
+box-shadow:0 5px 15px rgba(0,0,0,.15);
+color:#EF4444;
+}
+
+.food-body{
+padding:25px;
+height:100%;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+}
+
+.food-title{
+font-size:28px;
+font-weight:700;
+}
+
+.food-desc{
+margin:18px 0;
+color:#64748B;
 }
 
 .price{
-
-font-size:22px;
-
-font-weight:bold;
-
-color:#4F46E5;
-
+font-size:28px;
+font-weight:700;
+color:#10B981;
+white-space:nowrap;
 }
 
 .qty-btn{
-
-width:40px;
-
-height:40px;
-
+width:42px;
+height:42px;
 border-radius:50%;
-
 }
 
+.available{
+color:#16A34A;
+font-weight:600;
+}
+
+/*======================
+SUMMARY
+======================*/
+
 .summary{
-
-background:white;
-
+background:#fff;
 padding:30px;
-
-border-radius:20px;
-
-box-shadow:0 10px 25px rgba(0,0,0,.08);
-
+border-radius:24px;
+box-shadow:0 15px 35px rgba(0,0,0,.08);
 position:sticky;
-
 top:100px;
-
 }
 
 .summary h3{
-
+font-weight:700;
 margin-bottom:20px;
-
 }
 
 .total{
-
-font-size:28px;
-
-font-weight:bold;
-
-color:#16a34a;
-
+font-size:34px;
+font-weight:700;
+color:#10B981;
 }
 
 .checkout{
-
-width:100%;
-
-margin-top:20px;
-
-background:#4F46E5;
-
+background:#F97316;
 border:none;
-
-padding:14px;
-
+padding:15px;
+width:100%;
+border-radius:40px;
 font-size:18px;
-
+font-weight:700;
+color:#fff;
 }
 
 .checkout:hover{
-
-background:#4338CA;
-
+background:#EA580C;
+color:#fff;
 }
+
+.summary hr{
+opacity:.15;
+}
+
+/*======================
+EMPTY CART
+======================*/
 
 .empty{
-
 text-align:center;
-
-padding:100px;
-
+padding:100px 20px;
+background:#fff;
+border-radius:25px;
+box-shadow:0 15px 35px rgba(0,0,0,.08);
 }
 
+.empty i{
+font-size:100px;
+color:#CBD5E1;
+}
+
+.empty h2{
+margin-top:20px;
+font-weight:700;
+}
+
+/*======================
+FOOTER
+======================*/
+
 footer{
-
-margin-top:60px;
-
+margin-top:80px;
 background:#1E293B;
+padding:60px;
+color:#fff;
+}
 
-color:white;
+@media(max-width:992px){
 
-padding:25px;
+.summary{
+position:static;
+margin-top:30px;
+}
 
-text-align:center;
+.cart-banner{
+padding:35px;
+}
+
+.cart-banner h1{
+font-size:36px;
+}
 
 }
 
@@ -215,90 +316,88 @@ text-align:center;
 
 <body>
 
-<!-- NAVBAR -->
-
 <nav class="navbar navbar-expand-lg">
+<div class="container">
+
+<a class="navbar-brand" href="home">
+🍽 FoodVerse
+</a>
+
+<div class="ms-auto">
+
+<a href="home" class="btn btn-outline-warning rounded-pill">
+Continue Shopping
+</a>
+
+</div>
+
+</div>
+</nav>
 
 <div class="container">
 
-<a class="navbar-brand"
+<div class="cart-banner">
 
-href="home">
+<h1>🛒 Your Shopping Cart</h1>
 
-🍽 FoodVerse
+<p>
+Almost there! Review your delicious meals and proceed to secure checkout.
+</p>
 
-</a>
+<div class="banner-stats">
 
-<div>
+<div class="banner-stat">
+<h3><%=cart.getItems().size()%></h3>
+Items
+</div>
 
-<a class="btn btn-outline-primary me-2"
+<div class="banner-stat">
+<h3>30 Min</h3>
+Delivery
+</div>
 
-href="home">
-
-<i class="bi bi-house"></i>
-
-Home
-
-</a>
-
-<a class="btn btn-primary"
-
-href="logout">
-
-Logout
-
-</a>
+<div class="banner-stat">
+<h3>100%</h3>
+Fresh Food
+</div>
 
 </div>
 
 </div>
 
-</nav>
+<h2 class="section-title">
+Cart Items
+</h2>
 
-<div class="container mt-5">
-
-<h1 class="heading">
-
-🛒 My Shopping Cart
-
-</h1>
+<p class="section-sub">
+Freshly prepared meals from your favourite restaurant.
+</p>
 
 <%
-
 if(cart.getItems().isEmpty()){
-
 %>
 
 <div class="empty">
 
-<i class="bi bi-cart-x"
+<i class="bi bi-cart-x"></i>
 
-style="font-size:80px;color:gray;"></i>
+<h2>Your Cart is Empty</h2>
 
-<h2>
+<p class="text-muted">
+Looks like you haven't added any delicious food yet.
+</p>
 
-Your Cart is Empty
+<a href="home"
+class="btn btn-warning btn-lg rounded-pill mt-3">
 
-</h2>
-
-<br>
-
-<a href="home">
-
-<button class="btn btn-primary">
-
-Browse Restaurants
-
-</button>
+🍽 Browse Restaurants
 
 </a>
 
 </div>
 
 <%
-
 }else{
-
 %>
 
 <div class="row">
@@ -306,195 +405,347 @@ Browse Restaurants
 <div class="col-lg-8">
 
 <%
+for(CartItem item : cart.getItems()){
 
-for(CartItem item:cart.getItems()){
+boolean bestseller = item.getFoodItem().getPrice() >= 250;
 
+String category = item.getFoodItem().getCategory()==null
+? "Food"
+: item.getFoodItem().getCategory();
+
+boolean veg = !(category.equalsIgnoreCase("Chicken")
+|| category.equalsIgnoreCase("Mutton")
+|| category.equalsIgnoreCase("Seafood")
+|| category.equalsIgnoreCase("Non Veg"));
 %>
-
 <div class="card cart-card">
 
-<div class="row g-0">
+    <div class="row g-0">
 
-<div class="col-md-4">
+        <!-- Food Image -->
+        <div class="col-lg-4">
 
-<img src="<%=item.getFoodItem().getImage()%>">
+            <div class="food-image">
 
-</div>
+                <img src="<%=item.getFoodItem().getImage()%>"
+                     class="img-fluid"
+                     alt="Food Image">
 
-<div class="col-md-8">
+                <% if(bestseller){ %>
 
-<div class="card-body">
+                <div class="ribbon">
+                    🔥 Bestseller
+                </div>
 
-<h3>
+                <% } %>
 
-<%=item.getFoodItem().getFoodName()%>
+                <div class="favorite">
+                    <i class="bi bi-heart"></i>
+                </div>
 
-</h3>
+            </div>
 
-<p class="text-muted">
+        </div>
 
-<%=item.getFoodItem().getDescription()%>
+        <!-- Food Details -->
 
-</p>
+        <div class="col-lg-8">
 
-<div class="price">
+            <div class="food-body">
 
-₹ <%=item.getFoodItem().getPrice()%>
+                <div class="d-flex justify-content-between align-items-start">
 
-</div>
+                    <div>
 
-<br>
+                        <h3 class="food-title">
+                            <%=item.getFoodItem().getFoodName()%>
+                        </h3>
 
-<div class="d-flex align-items-center">
+                        <div class="mt-2">
 
-<a href="cart?action=decrease&foodId=<%=item.getFoodItem().getFoodId()%>">
+                            <span class="badge bg-success">
+                                ⭐ 4.8
+                            </span>
 
-<button class="btn btn-outline-danger qty-btn">
+                            <span class="badge bg-warning text-dark">
+                                25-30 Min
+                            </span>
 
--
+                            <% if(veg){ %>
 
-</button>
+                            <span class="badge bg-success">
+                                🟢 Veg
+                            </span>
 
-</a>
+                            <% } else { %>
 
-<span class="mx-3 fs-5">
+                            <span class="badge bg-danger">
+                                🔴 Non Veg
+                            </span>
 
-<%=item.getQuantity()%>
+                            <% } %>
 
-</span>
+                        </div>
 
-<a href="cart?action=increase&foodId=<%=item.getFoodItem().getFoodId()%>">
+                    </div>
 
-<button class="btn btn-outline-success qty-btn">
+                    <div class="price">
+                        ₹ <%=item.getFoodItem().getPrice()%>
+                    </div>
 
-+
+                </div>
 
-</button>
+                <p class="food-desc">
+                    <%=item.getFoodItem().getDescription()%>
+                </p>
 
-</a>
+                <!-- Quantity -->
 
-<a class="ms-4"
+                <div class="row align-items-center">
 
-href="cart?action=remove&foodId=<%=item.getFoodItem().getFoodId()%>">
+                    <div class="col-md-6">
 
-<button class="btn btn-danger">
+                        <div class="d-flex align-items-center">
 
-<i class="bi bi-trash"></i>
+                            <a href="cart?action=decrease&foodId=<%=item.getFoodItem().getFoodId()%>"
+                               class="btn btn-outline-danger qty-btn">
 
-Remove
+                                <i class="bi bi-dash-lg"></i>
 
-</button>
+                            </a>
 
-</a>
+                            <span class="mx-3 fs-4 fw-bold">
 
-</div>
+                                <%=item.getQuantity()%>
 
-<br>
+                            </span>
 
-<h5>
+                            <a href="cart?action=increase&foodId=<%=item.getFoodItem().getFoodId()%>"
+                               class="btn btn-outline-success qty-btn">
 
-Subtotal :
+                                <i class="bi bi-plus-lg"></i>
 
-₹ <%=item.getTotalPrice()%>
+                            </a>
 
-</h5>
+                        </div>
 
-</div>
+                    </div>
 
-</div>
+                    <div class="col-md-6 text-md-end mt-3 mt-md-0">
 
-</div>
+                        <a href="cart?action=remove&foodId=<%=item.getFoodItem().getFoodId()%>"
+                           class="btn btn-outline-danger rounded-pill">
+
+                            <i class="bi bi-trash-fill"></i>
+
+                            Remove
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <span class="available">
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                        Freshly Available
+
+                    </span>
+
+                    <div>
+
+                        <strong>Subtotal :</strong>
+
+                        <span class="price">
+
+                            ₹ <%=String.format("%.2f",item.getTotalPrice())%>
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
 
 <%
-
 }
-
 %>
 
 </div>
 
-<!-- SUMMARY -->
+<!-- ===========================
+ORDER SUMMARY
+============================ -->
 
 <div class="col-lg-4">
 
 <div class="summary">
 
 <h3>
-
-Order Summary
-
+🧾 Order Summary
 </h3>
 
 <hr>
 
-<p>
+<div class="mb-4">
 
-Items Total
+<label class="form-label fw-bold">
+Coupon Code
+</label>
 
-<span class="float-end">
+<div class="input-group">
 
-₹ <%=cart.getGrandTotal()%>
+<input
+type="text"
+id="coupon"
+class="form-control"
+placeholder="Enter Coupon">
 
-</span>
+<button
+class="btn btn-warning"
+onclick="applyCoupon()">
 
-</p>
+Apply
 
-<p>
+</button>
 
-Delivery Fee
+</div>
 
-<span class="float-end text-success">
+<small
+id="couponMessage"
+class="text-success">
+
+</small>
+
+</div>
+
+<div class="d-flex justify-content-between mb-3">
+
+<span>Items Total</span>
+
+<strong>
+
+₹ <%=String.format("%.2f",cart.getGrandTotal())%>
+
+</strong>
+
+</div>
+
+<div class="d-flex justify-content-between mb-3">
+
+<span>Delivery Charges</span>
+
+<span class="text-success">
 
 FREE
 
 </span>
 
-</p>
+</div>
 
-<p>
+<div class="d-flex justify-content-between mb-3">
 
-Platform Fee
+<span>Platform Fee</span>
 
-<span class="float-end">
+<span>
 
-₹ 10
+₹ 10.00
 
 </span>
 
-</p>
+</div>
 
-<p>
+<div class="d-flex justify-content-between mb-3">
 
-GST
+<span>GST (5%)</span>
 
-<span class="float-end">
+<span>
 
 ₹ <%=String.format("%.2f",cart.getGrandTotal()*0.05)%>
 
 </span>
 
-</p>
+</div>
+
+<div class="d-flex justify-content-between mb-3">
+
+<span>Savings</span>
+
+<span class="text-success">
+
+- ₹ 50.00
+
+</span>
+
+</div>
 
 <hr>
+
+<div class="d-flex justify-content-between align-items-center">
+
+<h4>
+Grand Total
+</h4>
 
 <div class="total">
 
 ₹ <%=String.format("%.2f",
-cart.getGrandTotal()+10+(cart.getGrandTotal()*0.05))%>
+Math.max(0,
+cart.getGrandTotal()
++10
++(cart.getGrandTotal()*0.05)
+-50))%>
 
 </div>
 
-<a href="checkout.jsp">
+</div>
 
-<button class="btn checkout text-white">
+<div class="alert alert-success mt-4">
+
+<i class="bi bi-shield-check"></i>
+
+100% Secure Payment via Razorpay
+
+</div>
+
+<a href="checkout.jsp"
+class="btn checkout text-decoration-none">
+
+<i class="bi bi-credit-card-fill"></i>
 
 Proceed To Checkout
 
-</button>
-
 </a>
+
+<div class="text-center mt-4">
+
+<img
+src="https://upload.wikimedia.org/wikipedia/commons/8/89/Razorpay_logo.svg"
+height="28"
+alt="Razorpay">
+
+<br><br>
+
+<small class="text-muted">
+
+Safe • Secure • Encrypted
+
+</small>
+
+</div>
 
 </div>
 
@@ -503,28 +754,175 @@ Proceed To Checkout
 </div>
 
 <%
-
 }
-
 %>
-
-</div>
+<!-- ===========================
+     FOOTER
+=========================== -->
 
 <footer>
 
-<h4>
+<div class="container">
 
-FoodVerse
+<div class="row text-center text-lg-start">
 
-</h4>
+<div class="col-lg-4 mb-4">
+
+<h2>🍽 FoodVerse</h2>
 
 <p>
+India's Favourite Food Delivery Platform
+</p>
 
-Fresh Food • Better Taste • Faster Delivery
+</div>
+
+<div class="col-lg-4 mb-4">
+
+<h5>Quick Links</h5>
+
+<p><a href="home" class="text-white text-decoration-none">Home</a></p>
+
+<p><a href="restaurants" class="text-white text-decoration-none">Restaurants</a></p>
+
+<p><a href="cart" class="text-white text-decoration-none">Cart</a></p>
+
+<p><a href="orders" class="text-white text-decoration-none">Orders</a></p>
+
+</div>
+
+<div class="col-lg-4 mb-4">
+
+<h5>Support</h5>
+
+<p>📞 +91 9876543210</p>
+
+<p>📧 support@foodverse.com</p>
+
+<p>📍 Bangalore, India</p>
+
+</div>
+
+</div>
+
+<hr class="border-light">
+
+<p class="text-center mb-0">
+
+© 2026 FoodVerse
+
+<br>
+
+Made with ❤️ using Java, JSP, Servlets & MySQL
 
 </p>
 
+</div>
+
 </footer>
+
+<!-- ===========================
+     BOOTSTRAP JS
+=========================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- ===========================
+     JAVASCRIPT
+=========================== -->
+
+<script>
+
+// ---------------- Coupon ----------------
+
+function applyCoupon(){
+
+    const code = document.getElementById("coupon").value.trim();
+
+    const message = document.getElementById("couponMessage");
+
+    message.classList.remove("text-success","text-danger");
+
+    if(code.toUpperCase() === "FOOD50"){
+
+        message.classList.add("text-success");
+
+        message.innerHTML =
+        "🎉 Coupon Applied Successfully!";
+
+    }
+    else{
+
+        message.classList.add("text-danger");
+
+        message.innerHTML =
+        "❌ Invalid Coupon Code";
+
+    }
+
+}
+
+
+// ---------------- Favourite Button ----------------
+
+document.querySelectorAll(".favorite").forEach(function(btn){
+
+    btn.addEventListener("click",function(){
+
+        const icon = btn.querySelector("i");
+
+        icon.classList.toggle("bi-heart");
+
+        icon.classList.toggle("bi-heart-fill");
+
+    });
+
+});
+
+
+// ---------------- Smooth Card Animation ----------------
+
+document.querySelectorAll(".cart-card").forEach(function(card){
+
+    card.addEventListener("mouseenter",function(){
+
+        card.style.transform="translateY(-8px)";
+
+    });
+
+    card.addEventListener("mouseleave",function(){
+
+        card.style.transform="translateY(0px)";
+
+    });
+
+});
+
+
+// ---------------- Checkout Validation ----------------
+
+const checkoutBtn=document.querySelector(".checkout");
+
+if(checkoutBtn){
+
+checkoutBtn.addEventListener("click",function(e){
+
+<%
+if(cart.getItems().isEmpty()){
+%>
+
+e.preventDefault();
+
+alert("Your cart is empty!");
+
+<%
+}
+%>
+
+});
+
+}
+
+</script>
 
 </body>
 

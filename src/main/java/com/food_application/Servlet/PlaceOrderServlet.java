@@ -61,10 +61,6 @@ public class PlaceOrderServlet extends HttpServlet {
             return;
         }
 
-        OrderDAO orderDAO = new OrderDAOImpl();
-        OrderItemDAO orderItemDAO = new OrderItemDAOImpl();
-        PaymentDAO paymentDAO = new PaymentDAOImpl();
-
         Connection connection = null;
         int orderId = 0;
 
@@ -74,6 +70,11 @@ public class PlaceOrderServlet extends HttpServlet {
                 throw new SQLException("Database connection is null");
             }
             connection.setAutoCommit(false);
+            DBConnection.bindConnection(connection);
+
+            OrderDAO orderDAO = new OrderDAOImpl();
+            OrderItemDAO orderItemDAO = new OrderItemDAOImpl();
+            PaymentDAO paymentDAO = new PaymentDAOImpl();
 
             Order order = new Order();
             order.setUserId(user.getUserId());
@@ -120,6 +121,7 @@ public class PlaceOrderServlet extends HttpServlet {
             e.printStackTrace();
             response.sendRedirect("checkout.jsp?error=1");
         } finally {
+            DBConnection.clearBoundConnection();
             if (connection != null) {
                 try {
                     connection.setAutoCommit(true);

@@ -2,10 +2,8 @@ package com.food_application.Servlet;
 
 import java.io.IOException;
 
-import com.food_application.DAO.UserDAO;
 import com.food_application.DAOApplication.UserDAOImpl;
 import com.food_application.model.User;
-import org.mindrot.jbcrypt.BCrypt;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -34,21 +32,9 @@ public class LoginServlet extends HttpServlet {
             password = password.trim();
         }
 
-        UserDAO dao = new UserDAOImpl();
+        User user = new UserDAOImpl().validateUser(email, password);
 
-        User user = dao.getUserByEmail(email);
-
-        boolean passwordMatches = false;
-        if (user != null && user.getPassword() != null) {
-            String storedPassword = user.getPassword();
-            if (storedPassword.startsWith("$2a$") || storedPassword.startsWith("$2b$") || storedPassword.startsWith("$2y$")) {
-                passwordMatches = BCrypt.checkpw(password, storedPassword);
-            } else {
-                passwordMatches = password != null && password.equals(storedPassword);
-            }
-        }
-
-        if (user != null && passwordMatches) {
+        if (user != null) {
 
             HttpSession session = request.getSession();
 

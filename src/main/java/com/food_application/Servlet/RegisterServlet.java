@@ -6,8 +6,7 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import com.food_application.DAO.UserDAO;
 import com.food_application.DAOApplication.UserDAOImpl;
-import com.food_application.email.EmailTemplates;
-import com.food_application.email.EmailUtility;
+
 import com.food_application.model.User;
 
 import jakarta.servlet.ServletException;
@@ -81,42 +80,6 @@ public class RegisterServlet extends HttpServlet {
 
         // Save User
         dao.addUser(user);
-
-        System.out.println("User Registered Successfully");
-
-        // Send Welcome Email
-        try {
-
-            boolean sent = EmailUtility.sendEmail(
-
-                    user.getEmail(),
-
-                    "🎉 Welcome to FoodVerse - Your Food Journey Starts Here!",
-
-                    EmailTemplates.welcomeEmail(user.getName())
-
-            );
-
-            if(sent){
-
-                System.out.println("Welcome email sent successfully.");
-
-            }
-            else{
-
-                System.out.println("Welcome email failed.");
-
-            }
-
-        }
-
-        catch(Exception e){
-
-            System.out.println("Email sending failed.");
-
-            e.printStackTrace();
-
-        }
 
         // Create Session
         HttpSession session = request.getSession();

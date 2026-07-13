@@ -24,8 +24,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import com.food_application.email.EmailTemplates;
-import com.food_application.email.EmailUtility;
+
 @WebServlet("/verifyPayment")
 public class VerifyPaymentServlet extends HttpServlet {
 
@@ -169,33 +168,7 @@ public class VerifyPaymentServlet extends HttpServlet {
 
             paymentDAO.addPayment(payment);
 
-            try {
-
-                EmailUtility.sendEmail(
-
-                        user.getEmail(),
-
-                        "🍔 FoodVerse - Order Confirmed",
-
-                        EmailTemplates.orderConfirmationEmail(
-
-                                user.getName(),
-
-                                newOrderId,
-
-                                paymentId,
-
-                                cart.getGrandTotal()
-
-                        )
-
-                );
-
-            } catch (Exception e) {
-
-                e.printStackTrace();
-
-            }
+            
             // Clear Cart
 
             session.removeAttribute("cart");

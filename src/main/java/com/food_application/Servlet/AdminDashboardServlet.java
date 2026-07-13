@@ -1,16 +1,16 @@
 package com.food_application.Servlet;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
-import com.food_application.DAO.FoodItemDAO;
-import com.food_application.DAO.OrderDAO;
-import com.food_application.DAO.RestaurantDAO;
-import com.food_application.DAO.UserDAO;
-import com.food_application.DAOApplication.FoodItemDAOImpl;
-import com.food_application.DAOApplication.OrderDAOImpl;
-import com.food_application.DAOApplication.RestaurantDAOImpl;
-import com.food_application.DAOApplication.UserDAOImpl;
-
+import com.food_application.DAO.DashboardDAO;
+import com.food_application.DAOApplication.DashboardDAOImpl;
+import com.food_application.model.DashboardStats;
+import com.food_application.model.RecentOrder;
+import com.food_application.model.TopFood;
+import com.food_application.model.TopRestaurant;
+import com.food_application.model.Activity;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -22,35 +22,74 @@ public class AdminDashboardServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
+    private DashboardDAO dao;
+
+    @Override
+    public void init() throws ServletException {
+
+        dao = new DashboardDAOImpl();
+
+    }
+
     @Override
     protected void doGet(HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
 
-        UserDAO userDAO = new UserDAOImpl();
-        RestaurantDAO restaurantDAO = new RestaurantDAOImpl();
-        FoodItemDAO foodDAO = new FoodItemDAOImpl();
-        OrderDAO orderDAO = new OrderDAOImpl();
+        try {
 
-        request.setAttribute("users",
-                userDAO.getUserCount());
+            DashboardStats stats = dao.getDashboardStats();
 
-        request.setAttribute("restaurants",
-                restaurantDAO.getRestaurantCount());
+            List<RecentOrder> recentOrders = dao.getRecentOrders();
 
-        request.setAttribute("foods",
-                foodDAO.getFoodItemCount());
+            TopRestaurant topRestaurant = dao.getTopRestaurant();
 
-        request.setAttribute("orders",
-                orderDAO.getOrderCount());
+            TopFood topFood = dao.getTopFood();
 
-        request.setAttribute("revenue",
-                orderDAO.getTotalRevenue());
+            Map<String,Integer> orderStatus =
+                    dao.getOrderStatus();
 
-        request.setAttribute("pending",
-                orderDAO.getPendingOrderCount());
+            Map<String,Double> monthlyRevenue =
+                    dao.getMonthlyRevenue();
+            List<Activity> activities =
+                    dao.getRecentActivities();
+           
+            request.setAttribute("activities", activities);
 
-        request.getRequestDispatcher("adminDashboard.jsp")
-               .forward(request, response);
+            request.setAttribute("stats", stats);
+
+            request.setAttribute("recentOrders",
+                    recentOrders);
+
+            request.setAttribute("topRestaurant",
+                    topRestaurant);
+
+            request.setAttribute("topFood",
+                    topFood);
+
+            request.setAttribute("orderStatus",
+                    orderStatus);
+
+            request.setAttribute("monthlyRevenue",
+                    monthlyRevenue);
+
+            request.getRequestDispatcher(
+                    "/adminDashboard.jsp")
+                    .forward(request,response);
+            
+            
+
+            
+        }
+
+        catch(Exception e) {
+
+            e.printStackTrace();
+
+            throw new ServletException(e);
+
+        }
+
     }
+
 }

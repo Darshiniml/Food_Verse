@@ -29,27 +29,31 @@ public class RoleFilter implements Filter {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         HttpSession session = httpRequest.getSession(false);
+        String contextPath = httpRequest.getContextPath();
+        String uri = httpRequest.getRequestURI();
 
         if (session == null || session.getAttribute("loggedUser") == null) {
-            httpResponse.sendRedirect(httpRequest.getContextPath() + "/login.jsp");
+            httpResponse.sendRedirect(contextPath + "/login.jsp");
             return;
         }
 
         User user = (User) session.getAttribute("loggedUser");
-        String uri = httpRequest.getRequestURI();
+        String adminPrefix = contextPath + "/admin";
+        String restaurantPrefix = contextPath + "/restaurant";
+        String deliveryPrefix = contextPath + "/delivery";
 
-        if ((uri.contains("/admin") || uri.endsWith("/adminDashboard") || uri.endsWith("/manageRestaurants") || uri.endsWith("/manageFood") || uri.endsWith("/manageUsers") || uri.endsWith("/manageOrders") || uri.endsWith("/addRestaurant") || uri.endsWith("/addFood") || uri.endsWith("/updateRestaurant") || uri.endsWith("/updateFood") || uri.endsWith("/deleteRestaurant") || uri.endsWith("/deleteFood") || uri.endsWith("/deleteUser") || uri.endsWith("/payments") || uri.endsWith("/analytics")) && !"ADMIN".equals(user.getRole())) {
-            httpResponse.sendRedirect(httpRequest.getContextPath() + "/403.jsp");
+        if ((uri.startsWith(adminPrefix) || uri.endsWith("/adminDashboard") || uri.endsWith("/manageRestaurants") || uri.endsWith("/manageFood") || uri.endsWith("/manageUsers") || uri.endsWith("/manageOrders") || uri.endsWith("/addRestaurant") || uri.endsWith("/addFood") || uri.endsWith("/updateRestaurant") || uri.endsWith("/updateFood") || uri.endsWith("/deleteRestaurant") || uri.endsWith("/deleteFood") || uri.endsWith("/deleteUser") || uri.endsWith("/payments") || uri.endsWith("/analytics")) && !"ADMIN".equals(user.getRole())) {
+            httpResponse.sendRedirect(contextPath + "/403.jsp");
             return;
         }
 
-        if ((uri.contains("/restaurant") || uri.endsWith("/restaurantDashboard") || uri.endsWith("/restaurantOrders") || uri.endsWith("/restaurantMenu")) && !"RESTAURANT".equals(user.getRole())) {
-            httpResponse.sendRedirect(httpRequest.getContextPath() + "/403.jsp");
+        if ((uri.startsWith(restaurantPrefix) || uri.endsWith("/restaurantDashboard") || uri.endsWith("/restaurantOrders") || uri.endsWith("/restaurantMenu")) && !"RESTAURANT".equals(user.getRole())) {
+            httpResponse.sendRedirect(contextPath + "/403.jsp");
             return;
         }
 
-        if ((uri.contains("/delivery") || uri.endsWith("/deliveryDashboard") || uri.endsWith("/availableOrders") || uri.endsWith("/myDeliveries") || uri.endsWith("/acceptDelivery") || uri.endsWith("/updateDeliveryStatus")) && !"DELIVERY_AGENT".equals(user.getRole())) {
-            httpResponse.sendRedirect(httpRequest.getContextPath() + "/403.jsp");
+        if ((uri.startsWith(deliveryPrefix) || uri.endsWith("/deliveryDashboard") || uri.endsWith("/availableOrders") || uri.endsWith("/myDeliveries") || uri.endsWith("/acceptDelivery") || uri.endsWith("/updateDeliveryStatus")) && !"DELIVERY_AGENT".equals(user.getRole())) {
+            httpResponse.sendRedirect(contextPath + "/403.jsp");
             return;
         }
 

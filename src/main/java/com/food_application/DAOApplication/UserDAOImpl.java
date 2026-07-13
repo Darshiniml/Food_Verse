@@ -1,16 +1,17 @@
 package com.food_application.DAOApplication;
 
 import java.sql.Connection;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+
+import org.mindrot.jbcrypt.BCrypt;
+
 import com.food_application.DAO.UserDAO;
 import com.food_application.model.User;
 import com.food_application.utility.DBConnection;
 
-import java.sql.PreparedStatement;
 public class UserDAOImpl implements UserDAO {
 
     private Connection con;
@@ -39,8 +40,6 @@ public class UserDAOImpl implements UserDAO {
             ps.setString(6, user.getRole());
 
             ps.executeUpdate();
-
-            System.out.println("User Registered Successfully");
 
         } catch(Exception e) {
             e.printStackTrace();
@@ -166,8 +165,6 @@ public class UserDAOImpl implements UserDAO {
 
             ps.executeUpdate();
 
-            System.out.println("User Updated Successfully");
-
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -187,8 +184,6 @@ public class UserDAOImpl implements UserDAO {
             ps.setInt(1, userId);
 
             ps.executeUpdate();
-
-            System.out.println("User Deleted Successfully");
 
         } catch(Exception e) {
             e.printStackTrace();
@@ -234,38 +229,19 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public User validateUser(String email, String password) {
 
-        User user = null;
+        User user = getUserByEmail(email);
 
-        String query =
-                "SELECT * FROM users WHERE email=? AND password=?";
-
-        try {
-
-            PreparedStatement ps =
-                    con.prepareStatement(query);
-
-            ps.setString(1, email);
-            ps.setString(2, password);
-
-            ResultSet rs = ps.executeQuery();
-
-            if(rs.next()) {
-
-                user = new User();
-
-                user.setUserId(rs.getInt("user_id"));
-                user.setName(rs.getString("name"));
-                user.setEmail(rs.getString("email"));
-                user.setPassword(rs.getString("password"));
-                user.setPhone(rs.getString("phone"));
-                user.setAddress(rs.getString("address"));
-                user.setRole(rs.getString("role"));
-            }
-
-        } catch(Exception e) {
-            e.printStackTrace();
+        if (user == null || user.getPassword() == null || password == null) {
+            return null;
         }
 
-        return user;
+        String storedPassword = user.getPassword();
+        if (storedPassword.startsWith("$2a$")
+                || storedPassword.startsWith("$2b$")
+                || storedPassword.startsWith("$2y$")) {
+            return BCrypt.checkpw(password, storedPassword) ? user : null;
+        }
+
+        return password.equals(storedPassword) ? user : null;
     }
 }

@@ -24,13 +24,9 @@ public class HomeServlet extends HttpServlet {
             HttpServletResponse response)
             throws ServletException, IOException {
 
-        System.out.println("========== HOME SERVLET CALLED ==========");
-
         RestaurantDAO dao = new RestaurantDAOImpl();
 
         List<Restaurant> restaurants = dao.getAllRestaurants();
-
-        System.out.println("Restaurant List = " + restaurants);
 
         request.setAttribute("restaurants", restaurants);
 

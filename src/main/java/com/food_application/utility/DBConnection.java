@@ -33,6 +33,18 @@ public class DBConnection {
     public static Connection getConnection() {
 
         try {
+            if (URL == null || URL.isBlank()) {
+                LOGGER.severe("FOODVERSE_DB_URL is missing or blank");
+                return null;
+            }
+            if (USERNAME == null || USERNAME.isBlank()) {
+                LOGGER.severe("FOODVERSE_DB_USERNAME is missing or blank");
+                return null;
+            }
+            if (PASSWORD == null || PASSWORD.isBlank()) {
+                LOGGER.severe("FOODVERSE_DB_PASSWORD is missing or blank");
+                return null;
+            }
             Connection connection = BOUND_CONNECTION.get();
             if (connection != null && !connection.isClosed()) {
                 return connection;

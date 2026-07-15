@@ -6,6 +6,7 @@
 <%
 List<Restaurant> restaurants = (List<Restaurant>)request.getAttribute("restaurants");
 User user = (User)session.getAttribute("loggedUser");
+String contextPath = request.getContextPath();
 %>
 
 <!DOCTYPE html>
@@ -327,7 +328,7 @@ if (restaurants != null) {
 <div class="restaurant-card">
 <div style="position:relative;">
 <!-- Added lazy loading for images -->
-<img src="<%=restaurant.getImage()%>" alt="<%=restaurant.getRestaurantName()%>" loading="lazy">
+<img src="<%=contextPath%>/<%=restaurant.getImage()%>" alt="<%=restaurant.getRestaurantName()%>" loading="lazy">
 <% if(featured){ %>
 <div class="ribbon">🔥 Featured</div>
 <% } %>
@@ -540,14 +541,14 @@ window.onload=function(){
 ========================================*/
 window.addEventListener("load", function() {
   const videoPlaylist = [
-    "Videos/video1.mp4",
-    "Videos/video2.mp4",
-    "Videos/video3.mp4",
-    "Videos/video4.mp4",
-    "Videos/video5.mp4",
-    "Videos/video6.mp4",
-    "Videos/video7.mp4",
-    "Videos/video8.mp4"
+    "<%=contextPath%>/Videos/video1.mp4",
+    "<%=contextPath%>/Videos/video2.mp4",
+    "<%=contextPath%>/Videos/video3.mp4",
+    "<%=contextPath%>/Videos/video4.mp4",
+    "<%=contextPath%>/Videos/video5.mp4",
+    "<%=contextPath%>/Videos/video6.mp4",
+    "<%=contextPath%>/Videos/video7.mp4",
+    "<%=contextPath%>/Videos/video8.mp4"
   ];
   
   let currentIndex = 0;

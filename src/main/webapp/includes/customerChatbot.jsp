@@ -82,11 +82,14 @@
     input.value = '';
     const loading = loadingBubble();
     try {
-      const form = new FormData();
-      form.append('message', clean);
+      const body = new URLSearchParams();
+      body.append('message', clean);
       const response = await fetch(contextPath + '/chatbot', {
         method: 'POST',
-        body: form
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+        },
+        body: body.toString()
       });
       const data = await response.json();
       loading.remove();

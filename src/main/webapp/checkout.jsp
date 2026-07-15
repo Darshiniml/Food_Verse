@@ -459,6 +459,8 @@ Place Order
 
 </div>
 
+<jsp:include page="/includes/customerChatbot.jsp" />
+
 </body>
 
 </html>

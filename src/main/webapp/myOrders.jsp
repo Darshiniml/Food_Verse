@@ -1743,6 +1743,8 @@ behavior:"smooth"
 
 </script>
 
+<jsp:include page="/includes/customerChatbot.jsp" />
+
 </body>
 
 </html>

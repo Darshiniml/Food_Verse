@@ -73,6 +73,9 @@ catch (Exception ignored) { }
 </main>
 <a href="cart.jsp" class="floating-cart" title="View Cart"><i class="bi bi-cart-fill"></i></a>
 <footer><div class="container"><div class="row"><div class="col-lg-4"><h2>🍽 FoodVerse</h2><p class="mt-3">Fresh Food • Fast Delivery • Better Taste</p><p>Serving happiness one meal at a time.</p></div><div class="col-lg-2"><h5>Quick Links</h5><p><a href="home" class="text-white text-decoration-none">Home</a></p><p><a href="cart.jsp" class="text-white text-decoration-none">Cart</a></p><p><a href="myOrders" class="text-white text-decoration-none">Orders</a></p></div><div class="col-lg-3"><h5>Support</h5><p>📞 +91 9876543210</p><p>✉ support@foodverse.com</p></div><div class="col-lg-3"><h5>Follow Us</h5><div class="d-flex justify-content-center gap-3 mt-3"><i class="bi bi-facebook fs-3"></i><i class="bi bi-instagram fs-3"></i><i class="bi bi-twitter-x fs-3"></i></div></div></div><hr class="my-4"><p>© 2026 FoodVerse | Made with ❤️ using Java, JSP, Servlets & MySQL</p></div></footer>
+
+<jsp:include page="/includes/customerChatbot.jsp" />
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 function searchFood(){const input=document.getElementById('searchFood').value.toLowerCase();document.querySelectorAll('.food-item').forEach(card=>card.style.display=card.innerText.toLowerCase().includes(input)?'':'none')}

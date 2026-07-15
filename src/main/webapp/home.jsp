@@ -53,7 +53,7 @@ body{ background:#F8FAFC; overflow-x:hidden; }
   top: 0;
   left: 0;
   width: 100vw;
-  height: 120%;
+  height: 100%;
   object-fit: cover;
 }
 
@@ -443,7 +443,7 @@ if (restaurants != null) {
 <p class="mb-0">© 2026 FoodVerse | Made with ❤️ using Java, JSP & MySQL</p>
 </div>
 </footer>
-
+<jsp:include page="/includes/customerChatbot.jsp" />
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 /*========================================

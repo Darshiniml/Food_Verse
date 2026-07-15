@@ -820,6 +820,8 @@ Made with ❤️ using Java, JSP, Servlets & MySQL
 
 </footer>
 
+<jsp:include page="/includes/customerChatbot.jsp" />
+
 <!-- ===========================
      BOOTSTRAP JS
 =========================== -->

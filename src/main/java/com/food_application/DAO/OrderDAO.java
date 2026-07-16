@@ -2,6 +2,7 @@ package com.food_application.DAO;
 
 import java.util.List;
 import com.food_application.model.Order;
+import com.food_application.model.OrderStatus;
 
 public interface OrderDAO {
 
@@ -25,7 +26,10 @@ public interface OrderDAO {
 
     List<Order> getOrdersByStatus(String status);
 
-    void updateOrderStatus(int orderId,String status);
+    void updateOrderStatus(int orderId, String status);
+    void updateOrderStatus(int orderId, OrderStatus status);
+    OrderStatus getOrderStatus(int orderId);
+    Order getTrackingDetails(int orderId);
     List<Order> getOrdersByRestaurantId(int restaurantId);
 
     int getRestaurantOrderCount(int restaurantId);

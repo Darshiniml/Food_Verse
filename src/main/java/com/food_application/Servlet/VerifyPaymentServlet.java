@@ -125,7 +125,7 @@ public class VerifyPaymentServlet extends HttpServlet {
             order.setTotalAmount(
                     cart.getGrandTotal());
 
-            order.setStatus("PENDING");
+            order.setStatus("PLACED");
 
             order.setDeliveryAddress(
                     address);

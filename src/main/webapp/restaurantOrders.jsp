@@ -315,7 +315,7 @@ String css = "";
 
 switch(status){
 
-case "PENDING":
+case "PLACED":
     css="pending";
     break;
 
@@ -323,7 +323,7 @@ case "PREPARING":
     css="preparing";
     break;
 
-case "READY_FOR_PICKUP":
+case "READY":
     css="ready";
     break;
 
@@ -367,10 +367,10 @@ name="status"
 class="form-select form-select-sm">
 
 <option
-value="PENDING"
-<%=status.equals("PENDING")?"selected":""%>>
+value="PLACED"
+<%=status.equals("PLACED")?"selected":""%>>
 
-PENDING
+PLACED
 
 </option>
 
@@ -383,10 +383,10 @@ PREPARING
 </option>
 
 <option
-value="READY_FOR_PICKUP"
-<%=status.equals("READY_FOR_PICKUP")?"selected":""%>>
+value="READY"
+<%=status.equals("READY")?"selected":""%>>
 
-READY FOR PICKUP
+READY
 
 </option>
 

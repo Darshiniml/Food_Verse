@@ -173,7 +173,7 @@ MAIN
 
 margin-left:270px;
 
-padding:35px;
+padding:24px 32px 32px;
 
 }
 
@@ -185,7 +185,7 @@ HERO
 
 background:linear-gradient(135deg,#F97316,#EA580C);
 
-padding:35px;
+padding:24px 28px;
 
 border-radius:25px;
 
@@ -193,16 +193,16 @@ color:white;
 
 box-shadow:0 15px 35px rgba(249,115,22,.25);
 
-margin-bottom:30px;
+margin-bottom:18px;
 
 }
 .card-box{
     background:#fff;
-    padding:30px;
+    padding:22px;
     border-radius:20px;
     box-shadow:0 10px 25px rgba(0,0,0,.08);
     height:auto;
-    min-height:550px;
+    min-height:0;
        overflow-y:auto;
 
 }
@@ -245,7 +245,7 @@ CARDS
 
 background:white;
 
-padding:28px;
+padding:20px;
 
 border-radius:20px;
 
@@ -355,7 +355,7 @@ PROFILE CARD
 
 background:white;
 
-padding:30px;
+padding:22px;
 
 border-radius:20px;
 
@@ -671,7 +671,7 @@ String badge="secondary";
 
 String icon="bi-clock";
 
-if("PENDING".equalsIgnoreCase(order.getStatus())){
+if("PLACED".equalsIgnoreCase(order.getStatus())){
 
 badge="warning";
 
@@ -685,7 +685,7 @@ badge="primary";
 icon="bi-fire";
 
 }
-else if("READY_FOR_PICKUP".equalsIgnoreCase(order.getStatus())){
+else if("READY".equalsIgnoreCase(order.getStatus())){
 
 badge="info";
 

@@ -79,10 +79,10 @@ public class DashboardDAOImpl implements DashboardDAO {
 	        rs.close();
 	        ps.close();
 
-	        // ================= PENDING ORDERS =================
+	        // ================= PAYMENT / ORDER PENDING =================
 
 	        ps = con.prepareStatement(
-	                "SELECT COUNT(*) FROM orders WHERE status='PENDING'");
+	                "SELECT COUNT(*) FROM orders WHERE COALESCE(order_status,status)='PLACED'");
 	        rs = ps.executeQuery();
 
 	        if (rs.next()) {

@@ -283,7 +283,7 @@ for(Order order:orders){
 
 <span class="status">
 
-READY FOR PICKUP
+READY
 
 </span>
 

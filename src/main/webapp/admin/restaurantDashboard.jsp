@@ -651,7 +651,7 @@ String badge="secondary";
 
 String icon="bi-clock";
 
-if("PENDING".equalsIgnoreCase(order.getStatus())){
+if("PLACED".equalsIgnoreCase(order.getStatus())){
 
 badge="warning";
 
@@ -665,7 +665,7 @@ badge="primary";
 icon="bi-fire";
 
 }
-else if("READY_FOR_PICKUP".equalsIgnoreCase(order.getStatus())){
+else if("READY".equalsIgnoreCase(order.getStatus())){
 
 badge="info";
 

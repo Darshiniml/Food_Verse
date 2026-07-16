@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import com.food_application.DAO.OrderDAO;
 import com.food_application.DAOApplication.OrderDAOImpl;
+import com.food_application.model.OrderStatus;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -33,8 +34,17 @@ public class UpdateRestaurantOrderServlet extends HttpServlet {
 
         String status =
                 request.getParameter("status");
+        OrderStatus nextStatus = OrderStatus.fromString(status);
+        OrderStatus currentStatus = dao.getOrderStatus(orderId);
 
-        dao.updateOrderStatus(orderId, status);
+        boolean allowed =
+                (currentStatus == OrderStatus.PLACED && nextStatus == OrderStatus.ACCEPTED) ||
+                (currentStatus == OrderStatus.ACCEPTED && nextStatus == OrderStatus.PREPARING) ||
+                (currentStatus == OrderStatus.PREPARING && nextStatus == OrderStatus.READY);
+
+        if (allowed) {
+            dao.updateOrderStatus(orderId, nextStatus);
+        }
 
         response.sendRedirect("restaurantOrders");
 

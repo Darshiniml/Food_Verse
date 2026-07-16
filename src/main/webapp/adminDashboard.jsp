@@ -950,7 +950,7 @@ Excellent
 
 </div>
 
-<!-- PENDING -->
+<!-- PAYMENT PENDING -->
 
 <div class="col-xl-4 col-md-6">
 

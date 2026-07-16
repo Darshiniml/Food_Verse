@@ -26,7 +26,7 @@ public class DBConnection {
             System.getProperty("foodverse.db.password",
                     System.getenv().getOrDefault(
                             "FOODVERSE_DB_PASSWORD",
-                            ""));
+                            "Darsh123"));
     private static final ThreadLocal<Connection> BOUND_CONNECTION =
             new ThreadLocal<>();
 

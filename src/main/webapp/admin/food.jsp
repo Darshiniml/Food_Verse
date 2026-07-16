@@ -12,6 +12,9 @@ List<FoodItem> foods =
 
 List<Restaurant> restaurants =
 (List<Restaurant>)request.getAttribute("restaurants");
+
+Integer preselectedRestaurantId =
+(Integer)request.getAttribute("preselectedRestaurantId");
 %>
 
 <!DOCTYPE html>
@@ -447,13 +450,16 @@ Select Restaurant
 
 </option>
 
-<%
+<% 
 
 for(Restaurant r:restaurants){
 
 %>
 
-<option value="<%=r.getRestaurantId()%>">
+<option value="<%=r.getRestaurantId()%>"
+<% if(preselectedRestaurantId!=null && preselectedRestaurantId.equals(r.getRestaurantId())){ %>
+selected
+<% } %>>
 
 <%=r.getRestaurantName()%>
 

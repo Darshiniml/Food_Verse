@@ -84,7 +84,7 @@ public class PlaceOrderServlet extends HttpServlet {
 
             order.setRestaurantId(restaurantId);
             order.setTotalAmount(cart.getGrandTotal());
-            order.setStatus("PENDING");
+            order.setStatus("PLACED");
             order.setDeliveryAddress(address.trim());
 
             orderId = orderDAO.addOrder(order);

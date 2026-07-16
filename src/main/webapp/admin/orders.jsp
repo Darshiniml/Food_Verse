@@ -66,7 +66,7 @@ color:white;
 
 }
 
-.pending{
+.PLACED{
 
 background:#F59E0B;
 
@@ -171,11 +171,11 @@ All Status
 
 </option>
 
-<option>PENDING</option>
+<option>PLACED</option>
 
 <option>PREPARING</option>
 
-<option>READY_FOR_PICKUP</option>
+<option>READY</option>
 
 <option>OUT_FOR_DELIVERY</option>
 
@@ -277,9 +277,9 @@ String css = "";
 
 switch(status){
 
-case "PENDING":
+case "PLACED":
 
-    css = "pending";
+    css = "PLACED";
 
     break;
 
@@ -289,7 +289,7 @@ case "PREPARING":
 
     break;
 
-case "READY_FOR_PICKUP":
+case "READY":
 
     css = "ready";
 
@@ -348,9 +348,9 @@ name="status"
 class="form-select form-select-sm">
 
 <option
-<%=status.equals("PENDING")?"selected":""%>>
+<%=status.equals("PLACED")?"selected":""%>>
 
-PENDING
+PLACED
 
 </option>
 
@@ -362,9 +362,9 @@ PREPARING
 </option>
 
 <option
-<%=status.equals("READY_FOR_PICKUP")?"selected":""%>>
+<%=status.equals("READY")?"selected":""%>>
 
-READY_FOR_PICKUP
+READY
 
 </option>
 

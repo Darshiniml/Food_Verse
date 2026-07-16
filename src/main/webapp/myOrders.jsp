@@ -873,7 +873,7 @@ All Orders
 
 <button
 class="filter-btn"
-data-filter="PENDING">
+data-filter="PLACED">
 
 Pending
 
@@ -1292,6 +1292,18 @@ class="btn btn-primary btn-premium">
 <i class="bi bi-eye-fill"></i>
 
 View Details
+
+</a>
+
+<a
+
+href="trackOrder.jsp?orderId=<%=order.getOrderId()%>"
+
+class="btn btn-outline-success btn-premium">
+
+<i class="bi bi-geo-alt-fill"></i>
+
+View Tracking
 
 </a>
 
@@ -1748,3 +1760,4 @@ behavior:"smooth"
 </body>
 
 </html>
+

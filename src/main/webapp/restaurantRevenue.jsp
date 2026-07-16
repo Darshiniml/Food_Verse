@@ -307,7 +307,7 @@ badge="success";
 
 badge="primary";
 
-}else if("READY_FOR_PICKUP".equals(order.getStatus())){
+}else if("READY".equals(order.getStatus())){
 
 badge="info";
 
@@ -315,7 +315,7 @@ badge="info";
 
 badge="warning";
 
-}else if("PENDING".equals(order.getStatus())){
+}else if("PLACED".equals(order.getStatus())){
 
 badge="danger";
 

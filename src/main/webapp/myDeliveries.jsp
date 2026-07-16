@@ -349,6 +349,14 @@ name="status"
 class="form-select form-select-sm">
 
 <option
+value="PICKED_UP"
+<%=status.equals("PICKED_UP")?"selected":""%>>
+
+PICKED UP
+
+</option>
+
+<option
 value="OUT_FOR_DELIVERY"
 <%=status.equals("OUT_FOR_DELIVERY")?"selected":""%>>
 

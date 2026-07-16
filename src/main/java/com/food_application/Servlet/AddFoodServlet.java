@@ -3,8 +3,12 @@ package com.food_application.Servlet;
 import java.io.IOException;
 
 import com.food_application.DAO.FoodItemDAO;
+import com.food_application.DAO.RestaurantDAO;
 import com.food_application.DAOApplication.FoodItemDAOImpl;
+import com.food_application.DAOApplication.RestaurantDAOImpl;
 import com.food_application.model.FoodItem;
+import com.food_application.model.Restaurant;
+import com.food_application.model.User;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -16,18 +20,64 @@ public class AddFoodServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     private FoodItemDAO dao;
+    private RestaurantDAO restaurantDAO;
 
     @Override
     public void init() {
 
         dao = new FoodItemDAOImpl();
+        restaurantDAO = new RestaurantDAOImpl();
 
+    }
+
+    private boolean isRestaurantUser(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return false;
+        }
+        User user = (User) session.getAttribute("loggedUser");
+        return user != null && "RESTAURANT".equalsIgnoreCase(user.getRole());
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request,
+            HttpServletResponse response)
+            throws ServletException, IOException {
+        if (!isRestaurantUser(request)) {
+            response.sendRedirect(request.getContextPath() + "/403.jsp");
+            return;
+        }
+
+        HttpSession session = request.getSession(false);
+        User user = (User) session.getAttribute("loggedUser");
+        Restaurant restaurant = restaurantDAO.getRestaurantByUserId(user.getUserId());
+        if (restaurant == null) {
+            response.sendRedirect(request.getContextPath() + "/403.jsp");
+            return;
+        }
+
+        request.setAttribute("restaurant", restaurant);
+        request.setAttribute("preselectedRestaurantId", restaurant.getRestaurantId());
+        request.getRequestDispatcher("admin/food.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request,
             HttpServletResponse response)
             throws ServletException, IOException {
+
+        if (!isRestaurantUser(request)) {
+            response.sendRedirect(request.getContextPath() + "/403.jsp");
+            return;
+        }
+
+        HttpSession session = request.getSession(false);
+        User user = (User) session.getAttribute("loggedUser");
+        Restaurant restaurant = restaurantDAO.getRestaurantByUserId(user.getUserId());
+        if (restaurant == null) {
+            response.sendRedirect(request.getContextPath() + "/403.jsp");
+            return;
+        }
 
         String foodName = request.getParameter("foodName");
         String description = request.getParameter("description");
@@ -44,8 +94,7 @@ public class AddFoodServlet extends HttpServlet {
 
         FoodItem food = new FoodItem();
 
-        food.setRestaurantId(
-                Integer.parseInt(request.getParameter("restaurantId")));
+        food.setRestaurantId(restaurant.getRestaurantId());
 
         food.setFoodName(foodName.trim());
         food.setDescription(description.trim());

@@ -66,28 +66,28 @@ public class ChatbotServlet extends HttpServlet {
             return FALLBACK_REPLY;
         }
 
-        if (contains(intent, "show best restaurants", "best restaurants", "popular restaurants", "top restaurants")) {
+        if (containsPhrase(intent, "show best restaurants", "best restaurants", "popular restaurants", "top restaurants")) {
             return replyWithRestaurants("SELECT restaurant_name, cuisine_type, rating FROM restaurants ORDER BY rating DESC, restaurant_id ASC LIMIT 3");
         }
 
-        if (contains(intent, "recommend pizza", "available pizza", "pizza restaurants", "show pizza") || intent.equals("pizza")) {
+        if (containsWord(intent, "pizza")) {
             return replyWithFood("SELECT food_name, price, category FROM food_items WHERE LOWER(food_name) LIKE ? OR LOWER(category) LIKE ? OR LOWER(description) LIKE ? LIMIT 5",
                     "%pizza%", "%pizza%", "%pizza%");
         }
 
-        if (contains(intent, "recommend burger", "available burger", "burger restaurants") || intent.equals("burger")) {
+        if (containsWord(intent, "burger")) {
             return replyWithFood("SELECT food_name, price, category FROM food_items WHERE LOWER(food_name) LIKE ? OR LOWER(category) LIKE ? OR LOWER(description) LIKE ? LIMIT 5",
                     "%burger%", "%burger%", "%burger%");
         }
 
-        if (contains(intent, "my order status", "track my order", "order status", "track order", "my orders")) {
+        if (containsPhrase(intent, "my order status", "track my order", "order status", "track order", "my orders")) {
             if (user == null) {
                 return "Please log in first so I can look up your orders.";
             }
             return replyWithOrders(user.getUserId());
         }
 
-        if (contains(intent, "payment help", "payment", "razorpay", "upi", "card", "cash", "cod")) {
+        if (containsPhrase(intent, "payment help", "payment", "razorpay", "card", "cash", "cod") || containsWord(intent, "upi")) {
             return "💳 Payment options available:\n"
                     + "• Razorpay\n"
                     + "• UPI\n"
@@ -96,11 +96,31 @@ public class ChatbotServlet extends HttpServlet {
                     + "You’ll see the available options during checkout.";
         }
 
-        if (contains(intent, "delivery help", "delivery", "time", "fast")) {
+        if (containsPhrase(intent, "delivery help", "delivery", "time", "fast")) {
             return "🚚 Typical delivery time is around 25–30 minutes, depending on your location and restaurant load.";
         }
 
-        if (contains(intent, "what is rate of", "what is the rate of", "rate of", "price of", "cost of", "how much is", "how much for")) {
+        if (containsPhrase(intent, "where is", "where are", "located", "location of", "address of", "find")) {
+            String place = extractAfterTrigger(intent, "where is", "where are", "located", "location of", "address of", "find");
+            if (!place.isBlank()) {
+                String locationReply = replyWithRestaurantLocation(place);
+                if (!FALLBACK_REPLY.equals(locationReply)) {
+                    return locationReply;
+                }
+            }
+        }
+
+        if (containsPhrase(intent, "tell me about order number", "order number", "order no", "order #", "order id")) {
+            String orderIdText = extractOrderId(intent);
+            if (!orderIdText.isBlank()) {
+                String orderReply = replyWithOrderById(user, orderIdText);
+                if (!FALLBACK_REPLY.equals(orderReply)) {
+                    return orderReply;
+                }
+            }
+        }
+
+        if (containsPhrase(intent, "what is rate of", "what is the rate of", "rate of", "price of", "cost of", "how much is", "how much for")) {
             String target = extractAfterTrigger(intent,
                     "what is rate of",
                     "what is the rate of",
@@ -109,6 +129,7 @@ public class ChatbotServlet extends HttpServlet {
                     "cost of",
                     "how much is",
                     "how much for");
+            target = normalizeFoodQuery(target);
             if (!target.isBlank()) {
                 String priceReply = replyWithFood("SELECT food_name, price, category FROM food_items WHERE LOWER(food_name) LIKE ? OR LOWER(category) LIKE ? OR LOWER(description) LIKE ? LIMIT 5",
                         "%" + target + "%", "%" + target + "%", "%" + target + "%");
@@ -118,7 +139,7 @@ public class ChatbotServlet extends HttpServlet {
             }
 
             String priceReply = replyWithFood("SELECT food_name, price, category FROM food_items WHERE LOWER(food_name) LIKE ? OR LOWER(category) LIKE ? OR LOWER(description) LIKE ? LIMIT 5",
-                    "%" + intent + "%", "%" + intent + "%", "%" + intent + "%");
+                    "%" + normalizeFoodQuery(intent) + "%", "%" + normalizeFoodQuery(intent) + "%", "%" + normalizeFoodQuery(intent) + "%");
             if (!FALLBACK_REPLY.equals(priceReply)) {
                 return priceReply;
             }
@@ -130,8 +151,13 @@ public class ChatbotServlet extends HttpServlet {
                 return restaurantItemsReply;
             }
 
+            String restaurantLocationReply = replyWithRestaurantLocation(intent);
+            if (!FALLBACK_REPLY.equals(restaurantLocationReply)) {
+                return restaurantLocationReply;
+            }
+
             String foodReply = replyWithFood("SELECT food_name, price, category FROM food_items WHERE LOWER(food_name) LIKE ? OR LOWER(category) LIKE ? OR LOWER(description) LIKE ? LIMIT 5",
-                    "%" + intent + "%", "%" + intent + "%", "%" + intent + "%");
+                    "%" + normalizeFoodQuery(intent) + "%", "%" + normalizeFoodQuery(intent) + "%", "%" + normalizeFoodQuery(intent) + "%");
             if (!FALLBACK_REPLY.equals(foodReply)) {
                 return foodReply;
             }
@@ -151,15 +177,19 @@ public class ChatbotServlet extends HttpServlet {
 
     private String replyWithRestaurantItems(String intent) {
         String cleaned = intent.replace("what are items in", "")
+                .replace("what are item in", "")
                 .replace("what are there in", "")
                 .replace("what is there in", "")
+                .replace("what are items of", "")
                 .replace("items in", "")
+                .replace("item in", "")
                 .replace("items of", "")
                 .replace("menu of", "")
                 .replace("menu for", "")
                 .replace("what is in", "")
                 .replace("show items in", "")
                 .replace("show menu of", "")
+                .replace("what are available in", "")
                 .trim();
 
         if (cleaned.isBlank()) {
@@ -283,7 +313,9 @@ public class ChatbotServlet extends HttpServlet {
     }
 
     private String replyWithOrders(int userId) {
-        String sql = "SELECT order_id, status, total_amount FROM orders WHERE user_id=? ORDER BY order_date DESC LIMIT 5";
+        String sql = "SELECT o.order_id, o.status, o.total_amount, o.order_date, r.restaurant_name "
+                + "FROM orders o LEFT JOIN restaurants r ON o.restaurant_id = r.restaurant_id "
+                + "WHERE o.user_id=? ORDER BY o.order_date DESC LIMIT 5";
         try (Connection connection = DBConnection.getConnection();
                 PreparedStatement statement = connection.prepareStatement(sql)) {
 
@@ -296,12 +328,25 @@ public class ChatbotServlet extends HttpServlet {
                 int latestOrderId = rs.getInt("order_id");
                 String latestStatus = rs.getString("status");
                 double latestAmount = rs.getDouble("total_amount");
+                String restaurantName = safe(rs.getString("restaurant_name"));
+                String orderDate = rs.getTimestamp("order_date") == null
+                        ? ""
+                        : rs.getTimestamp("order_date").toLocalDateTime().toString().replace('T', ' ');
                 while (rs.next()) {
                     orderCount++;
                 }
-                return "You have " + orderCount + " orders. Latest order #" + latestOrderId
-                        + " is " + safe(latestStatus) + " and totals ₹"
-                        + String.format(Locale.ROOT, "%.2f", latestAmount) + ".";
+                StringBuilder reply = new StringBuilder();
+                reply.append("📦 You have ").append(orderCount).append(" orders in the database.\n");
+                reply.append("Latest order #").append(latestOrderId).append("\n");
+                if (!restaurantName.isBlank()) {
+                    reply.append("• Restaurant: ").append(restaurantName).append("\n");
+                }
+                if (!orderDate.isBlank()) {
+                    reply.append("• Placed on: ").append(orderDate).append("\n");
+                }
+                reply.append("• Status: ").append(safe(latestStatus)).append("\n");
+                reply.append("• Total: ₹").append(String.format(Locale.ROOT, "%.2f", latestAmount));
+                return reply.toString();
             }
         } catch (Exception e) {
             System.out.println("FoodVerse chatbot order query error: " + e.getMessage());
@@ -312,9 +357,9 @@ public class ChatbotServlet extends HttpServlet {
     private JSONArray getSuggestions(String message) {
         String intent = normalize(message);
         List<String> suggestions;
-        if (intent.contains("pizza")) {
+        if (containsWord(intent, "pizza")) {
             suggestions = Arrays.asList("Show best restaurants", "What are items in Meghana", "Payment help");
-        } else if (intent.contains("order")) {
+        } else if (containsWord(intent, "order")) {
             suggestions = Arrays.asList("My order status", "Payment help", "Show best restaurants");
         } else {
             suggestions = Arrays.asList("Show best restaurants", "Recommend pizza", "What is rate of biryani");
@@ -322,13 +367,17 @@ public class ChatbotServlet extends HttpServlet {
         return new JSONArray(suggestions);
     }
 
-    private boolean contains(String intent, String... options) {
+    private boolean containsPhrase(String intent, String... options) {
         for (String option : options) {
             if (intent.contains(option)) {
                 return true;
             }
         }
         return false;
+    }
+
+    private boolean containsWord(String intent, String word) {
+        return (" " + intent + " ").contains(" " + word + " ");
     }
 
     private String normalize(String text) {
@@ -364,6 +413,106 @@ public class ChatbotServlet extends HttpServlet {
             return text == null ? "" : text;
         }
         return text.endsWith("s") ? text.substring(0, text.length() - 1) : text;
+    }
+
+    private String normalizeFoodQuery(String text) {
+        String normalized = normalizeLoose(text);
+        normalized = normalized.replace("panner", "paneer");
+        normalized = normalized.replace("mushrom", "mushroom");
+        return normalized;
+    }
+
+    private String extractOrderId(String intent) {
+        String digits = intent.replaceAll(".*?(\\d+).*", "$1");
+        if (digits.equals(intent) || digits.isBlank()) {
+            return "";
+        }
+        return digits;
+    }
+
+    private String replyWithRestaurantLocation(String place) {
+        String normalizedPlace = normalizeLoose(place);
+        if (normalizedPlace.isBlank()) {
+            return FALLBACK_REPLY;
+        }
+        String sql = "SELECT restaurant_name, address FROM restaurants WHERE LOWER(restaurant_name) LIKE ? OR LOWER(cuisine_type) LIKE ? OR LOWER(address) LIKE ? ORDER BY rating DESC LIMIT 5";
+        try (Connection connection = DBConnection.getConnection();
+                PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            String like = "%" + normalizedPlace + "%";
+            statement.setString(1, like);
+            statement.setString(2, like);
+            statement.setString(3, like);
+
+            try (ResultSet rs = statement.executeQuery()) {
+                List<String> places = new ArrayList<>();
+                while (rs.next()) {
+                    String restaurantName = rs.getString("restaurant_name");
+                    String address = rs.getString("address");
+                    if (restaurantName != null && address != null) {
+                        places.add("📍 " + restaurantName + "\n   " + address);
+                    }
+                }
+                if (places.isEmpty()) {
+                    return FALLBACK_REPLY;
+                }
+                return "Here you go:\n" + String.join("\n\n", places);
+            }
+        } catch (Exception e) {
+            System.out.println("FoodVerse chatbot location query error: " + e.getMessage());
+            return FALLBACK_REPLY;
+        }
+    }
+
+    private String replyWithOrderById(User user, String orderIdText) {
+        if (user == null) {
+            return "Please log in first so I can look up your order.";
+        }
+
+        try {
+            int orderId = Integer.parseInt(orderIdText);
+            String sql = "SELECT o.order_id, o.status, o.total_amount, o.order_date, o.delivery_address, r.restaurant_name "
+                    + "FROM orders o LEFT JOIN restaurants r ON o.restaurant_id = r.restaurant_id "
+                    + "WHERE o.order_id=? AND o.user_id=?";
+            try (Connection connection = DBConnection.getConnection();
+                    PreparedStatement statement = connection.prepareStatement(sql)) {
+
+                statement.setInt(1, orderId);
+                statement.setInt(2, user.getUserId());
+
+                try (ResultSet rs = statement.executeQuery()) {
+                    if (!rs.next()) {
+                        return FALLBACK_REPLY;
+                    }
+
+                    String status = rs.getString("status");
+                    double totalAmount = rs.getDouble("total_amount");
+                    String restaurantName = safe(rs.getString("restaurant_name"));
+                    String deliveryAddress = safe(rs.getString("delivery_address"));
+                    String orderDate = rs.getTimestamp("order_date") == null
+                            ? ""
+                            : rs.getTimestamp("order_date").toLocalDateTime().toString().replace('T', ' ');
+
+                    StringBuilder reply = new StringBuilder();
+                    reply.append("🧾 Order #").append(orderId).append(" details:\n");
+                    if (!restaurantName.isBlank()) {
+                        reply.append("• Restaurant: ").append(restaurantName).append("\n");
+                    }
+                    if (!orderDate.isBlank()) {
+                        reply.append("• Placed on: ").append(orderDate).append("\n");
+                    }
+                    if (!deliveryAddress.isBlank()) {
+                        reply.append("• Delivery address: ").append(deliveryAddress).append("\n");
+                    }
+                    reply.append("• Status: ").append(safe(status)).append("\n");
+                    reply.append("• Total: ₹").append(String.format(Locale.ROOT, "%.2f", totalAmount));
+                    return reply.toString();
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("FoodVerse chatbot order-by-id query error: " + e.getMessage());
+            return FALLBACK_REPLY;
+        }
     }
 
     private String safe(String value) {

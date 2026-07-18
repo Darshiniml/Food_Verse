@@ -17,6 +17,8 @@ import com.food_application.model.OrderItem;
 import com.food_application.model.Payment;
 import com.food_application.model.User;
 import com.food_application.payment.RazorpayConfig;
+import com.food_application.utility.NotificationService;
+import com.food_application.model.NotificationType;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -167,6 +169,8 @@ public class VerifyPaymentServlet extends HttpServlet {
             payment.setPaymentStatus("SUCCESS");
 
             paymentDAO.addPayment(payment);
+            NotificationService.send(user.getUserId(), newOrderId, "Order Placed", "Your order has been placed successfully.", NotificationType.ORDER);
+            NotificationService.send(user.getUserId(), newOrderId, "Payment Successful", "Your payment has been received successfully.", NotificationType.PAYMENT);
 
             
             // Clear Cart

@@ -6,6 +6,7 @@ import com.food_application.DAO.OrderDAO;
 import com.food_application.DAOApplication.OrderDAOImpl;
 import com.food_application.model.OrderStatus;
 import com.food_application.model.User;
+import com.food_application.utility.NotificationService;
 import com.food_application.model.User;
 
 import jakarta.servlet.ServletException;
@@ -47,6 +48,7 @@ public class AcceptDeliveryServlet extends HttpServlet {
         if (dao.getOrderStatus(orderId) == OrderStatus.READY) {
             dao.assignDeliveryAgent(orderId,
                     user.getUserId());
+            NotificationService.forStatus(dao.getTrackingDetails(orderId).getUserId(), orderId, OrderStatus.ASSIGNED);
         }
 
         response.sendRedirect("availableOrders");

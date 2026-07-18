@@ -1,0 +1,3 @@
+package com.food_application.Servlet;
+import java.io.*;import com.food_application.DAOApplication.NotificationDAOImpl;import com.food_application.model.User;import jakarta.servlet.annotation.WebServlet;import jakarta.servlet.http.*;
+@WebServlet("/markNotificationRead") public class MarkNotificationReadServlet extends HttpServlet{protected void doPost(HttpServletRequest q,HttpServletResponse r)throws IOException{User u=q.getSession(false)==null?null:(User)q.getSession(false).getAttribute("loggedUser");if(u!=null)try{new NotificationDAOImpl().markAsRead(Integer.parseInt(q.getParameter("id")),u.getUserId());}catch(Exception e){}r.setStatus(204);}}

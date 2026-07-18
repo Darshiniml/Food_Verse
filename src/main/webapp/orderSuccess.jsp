@@ -363,6 +363,7 @@ Download Invoice
 </div>
 </div>
 
+<jsp:include page="/includes/notifications.jsp" />
 </body>
 
 </html>

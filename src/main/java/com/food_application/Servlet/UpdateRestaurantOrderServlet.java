@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.food_application.DAO.OrderDAO;
 import com.food_application.DAOApplication.OrderDAOImpl;
 import com.food_application.model.OrderStatus;
+import com.food_application.utility.NotificationService;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -44,6 +45,7 @@ public class UpdateRestaurantOrderServlet extends HttpServlet {
 
         if (allowed) {
             dao.updateOrderStatus(orderId, nextStatus);
+            NotificationService.forStatus(dao.getTrackingDetails(orderId).getUserId(), orderId, nextStatus);
         }
 
         response.sendRedirect("restaurantOrders");

@@ -55,29 +55,31 @@ public class TrackOrderServlet extends HttpServlet {
         payload.put("deliveryPartner", order.getDeliveryAgentName() == null ? JSONObject.NULL : order.getDeliveryAgentName());
         payload.put("status", status.dbValue());
         payload.put("progress", buildProgress(status));
-        payload.put("timeline", buildTimeline(order));
+        payload.put("timeline", buildTimeline(order, status));
         payload.put("currentIndex", buildCurrentIndex(status));
         payload.put("completed", status == OrderStatus.DELIVERED);
 
         write(response, payload);
     }
 
-    private JSONArray buildTimeline(Order order) {
+    private JSONArray buildTimeline(Order order, OrderStatus status) {
         JSONArray timeline = new JSONArray();
-        addStep(timeline, "Order Placed", order.getOrderDate() != null, order.getOrderDate());
-        addStep(timeline, "Restaurant Accepted", order.getAcceptedAt() != null, order.getAcceptedAt());
-        addStep(timeline, "Preparing Food", order.getPreparingAt() != null, order.getPreparingAt());
-        addStep(timeline, "Food Ready", order.getReadyAt() != null, order.getReadyAt());
-        addStep(timeline, "Picked Up", order.getPickedUpAt() != null, order.getPickedUpAt());
-        addStep(timeline, "Out For Delivery", order.getOutForDeliveryAt() != null, order.getOutForDeliveryAt());
-        addStep(timeline, "Delivered", order.getDeliveredAt() != null, order.getDeliveredAt());
+        addStep(timeline, "Order Placed", order.getOrderDate(), status, 0);
+        addStep(timeline, "Restaurant Accepted", order.getAcceptedAt(), status, 1);
+        addStep(timeline, "Preparing Food", order.getPreparingAt(), status, 2);
+        addStep(timeline, "Food Ready", order.getReadyAt(), status, 3);
+        addStep(timeline, "Delivery Partner Assigned", order.getAssignedAt(), status, 4);
+        addStep(timeline, "Picked Up", order.getPickedUpAt(), status, 5);
+        addStep(timeline, "Out For Delivery", order.getOutForDeliveryAt(), status, 6);
+        addStep(timeline, "Delivered", order.getDeliveredAt(), status, 7);
         return timeline;
     }
 
-    private void addStep(JSONArray timeline, String label, boolean completed, java.sql.Timestamp time) {
+    private void addStep(JSONArray timeline, String label, java.sql.Timestamp time,
+            OrderStatus status, int stepIndex) {
         JSONObject step = new JSONObject();
         step.put("label", label);
-        step.put("completed", completed);
+        step.put("completed", time != null || (status != OrderStatus.CANCELLED && statusIndex(status) >= stepIndex));
         step.put("timestamp", time == null ? JSONObject.NULL : time.toString());
         timeline.put(step);
     }
@@ -97,6 +99,10 @@ public class TrackOrderServlet extends HttpServlet {
     }
 
     private int buildCurrentIndex(OrderStatus status) {
+        return statusIndex(status);
+    }
+
+    private int statusIndex(OrderStatus status) {
         switch (status) {
             case PLACED: return 0;
             case ACCEPTED: return 1;
@@ -105,7 +111,7 @@ public class TrackOrderServlet extends HttpServlet {
             case ASSIGNED: return 4;
             case PICKED_UP: return 5;
             case OUT_FOR_DELIVERY: return 6;
-            case DELIVERED: return 6;
+            case DELIVERED: return 7;
             case CANCELLED: default: return 0;
         }
     }

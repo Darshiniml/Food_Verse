@@ -3,13 +3,18 @@ contentType="text/html;charset=UTF-8"
 pageEncoding="UTF-8"%>
 
 <%@page import="java.util.List"%>
+<%@page import="java.util.Map"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="com.food_application.model.Order"%>
+<%@page import="com.food_application.model.OrderItem"%>
 
 <%
 
 List<Order> orders=
 (List<Order>)request.getAttribute("orders");
+
+Map<Integer,List<OrderItem>> orderItemsByOrder=
+(Map<Integer,List<OrderItem>>)request.getAttribute("orderItemsByOrder");
 
 SimpleDateFormat sdf=
 new SimpleDateFormat("dd MMM yyyy hh:mm a");
@@ -606,6 +611,65 @@ text-align:center;
 
 }
 
+/* Premium order-history refresh */
+body{background:linear-gradient(180deg,#f8fafc 0%,#eef2ff 100%);color:#172033;}
+.navbar{background:rgba(255,255,255,.88);backdrop-filter:blur(18px);border-bottom:1px solid rgba(148,163,184,.16);box-shadow:none;padding:13px 0;}
+.navbar-brand{font-size:28px;letter-spacing:-1.2px;}
+.hero{margin:34px auto 30px;padding:46px;isolation:isolate;background:linear-gradient(125deg,#111827 0%,#1e293b 54%,#e5672c 155%);box-shadow:0 28px 60px rgba(15,23,42,.22);}
+.hero::after{content:"";position:absolute;inset:auto 8% -110px auto;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(249,115,22,.5),transparent 67%);z-index:-1;}
+.hero h1{font-size:clamp(2.2rem,5vw,4rem);letter-spacing:-2px;}
+.hero p{max-width:620px;color:rgba(255,255,255,.8);}
+.hero-stats{gap:13px;}
+.hero-stat{min-width:142px;padding:16px 19px;border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.09);}
+.hero-stat h2{font-size:27px;}
+.search-box{max-width:760px;margin:0 auto 25px;padding:6px 7px 6px 20px;border:1px solid #e2e8f0;box-shadow:0 12px 35px rgba(15,23,42,.07);}
+.search-box input{font-size:15px;padding:12px;}
+.search-btn{padding:12px 23px;background:#172033;}
+.search-btn:hover{background:#f97316;}
+.filters{gap:10px;margin-bottom:30px;}
+.filter-btn{padding:10px 17px;border:1px solid #e2e8f0;box-shadow:none;color:#475569;font-size:.9rem;}
+.filter-btn:hover,.filter-btn.active{background:#172033;color:#fff;transform:none;border-color:#172033;}
+.order-card{position:relative;overflow:hidden;padding:28px;margin-bottom:20px;border:1px solid #e2e8f0;border-radius:22px;box-shadow:0 12px 28px rgba(15,23,42,.055);}
+.order-card::before{content:"";position:absolute;inset:0 auto 0 0;width:4px;background:linear-gradient(#fb923c,#f43f5e);opacity:0;transition:.25s;}
+.order-card:hover{transform:translateY(-4px);box-shadow:0 20px 42px rgba(15,23,42,.1);}
+.order-card:hover::before{opacity:1;}
+.order-id{font-size:1.35rem;letter-spacing:-.5px;margin:0;}
+.order-date{font-size:.9rem;margin:6px 0 0!important;}
+.badge-status{display:inline-flex;align-items:center;min-height:32px;padding:7px 13px;font-size:.72rem;letter-spacing:.7px;font-weight:800;}
+.order-card hr{border-color:#edf1f6;margin:20px 0;}
+.order-card h6{text-transform:uppercase;letter-spacing:.7px;font-size:.68rem;font-weight:800;color:#94a3b8!important;}
+.order-address{font-size:.92rem;margin-bottom:0;}
+.timeline{margin-top:20px;padding:17px 0 0 22px;border-left:2px solid #e2e8f0;}
+.timeline-step{margin-bottom:13px;font-size:.89rem;}
+.timeline-step::before{left:-29px;top:3px;width:12px;height:12px;box-shadow:0 0 0 5px #ecfdf5;}
+.timeline-step strong{color:#334155;}
+.order-progress-heading{display:flex;align-items:center;justify-content:space-between;margin-top:22px;padding-top:20px;border-top:1px solid #edf1f6;font-size:.85rem;font-weight:800;color:#334155;}
+.order-progress-heading span{color:#f97316;font-size:.72rem;letter-spacing:.7px;text-transform:uppercase;}
+.timeline{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;border:0;padding:18px 0 0;margin-top:0;}
+.timeline-step{min-width:0;margin:0;padding:24px 10px 0;position:relative;font-size:.78rem;}
+.timeline-step::before{left:10px;top:3px;width:12px;height:12px;background:#cbd5e1;box-shadow:0 0 0 5px #f1f5f9;}
+.timeline-step::after{content:"";position:absolute;left:22px;right:-7px;top:8px;height:2px;background:#e2e8f0;}
+.timeline-step:last-child::after{display:none;}
+.timeline-step.completed::before{background:#10b981;box-shadow:0 0 0 5px #ecfdf5;}
+.timeline-step.completed::after{background:#10b981;}
+.timeline-step.active::before{background:#f97316;box-shadow:0 0 0 6px rgba(249,115,22,.16);animation:statusPulse 1.8s infinite;}
+.timeline-step.active strong{color:#c2410c;}
+.timeline-step.future{opacity:.56;}
+.timeline-step small{display:block;line-height:1.35;margin-top:4px;}
+.cancelled-progress{margin-top:22px;padding:13px 15px;border-radius:12px;background:#fff1f2;color:#be123c;font-size:.88rem;}
+@keyframes statusPulse{0%,100%{box-shadow:0 0 0 5px rgba(249,115,22,.13)}50%{box-shadow:0 0 0 10px rgba(249,115,22,0)}}
+.order-summary-panel{background:linear-gradient(155deg,#f8fafc,#fff)!important;border:1px solid #e2e8f0;border-radius:18px!important;padding:23px!important;}
+.order-summary-panel .order-amount{font-size:1.6rem;letter-spacing:-1px;}
+.order-summary-panel .item-summary{max-width:62%;text-align:right;font-size:.82rem;line-height:1.35;color:#334155;}
+.btn-premium{border-radius:12px;padding:10px 16px;font-size:.88rem;transition:transform .2s,box-shadow .2s;}
+.btn-premium:hover{transform:translateY(-2px);box-shadow:0 8px 16px rgba(15,23,42,.12);}
+.empty{margin:25px 0 50px;padding:75px 25px;background:#fff;border:1px dashed #cbd5e1;border-radius:24px;}
+footer{margin-top:55px;background:#111827;padding:45px 0;color:#cbd5e1;}
+footer h2,footer h5{color:#fff;}
+@media(max-width:991px){.hero{padding:34px 26px;}.hero h1{font-size:2.4rem;}.order-summary-panel{margin-top:22px;}.hero-stat{min-width:120px;}}
+@media(max-width:767px){.timeline{grid-template-columns:1fr;gap:0;}.timeline-step{padding:0 0 17px 28px;}.timeline-step::before{left:4px;top:3px;}.timeline-step::after{left:9px;top:18px;right:auto;width:2px;height:calc(100% - 9px);}.timeline-step small{margin-top:3px;}}
+@media(max-width:575px){.hero{margin-top:20px;border-radius:22px;}.hero-stats{display:grid;grid-template-columns:1fr 1fr;}.hero-stat{min-width:0;}.search-box{border-radius:16px;}.search-btn{padding:11px 15px;}.order-card{padding:21px 18px;}.filters{overflow-x:auto;flex-wrap:nowrap;padding-bottom:5px;}.filter-btn{white-space:nowrap;}}
+
 </style>
 </head>
 
@@ -725,6 +789,8 @@ Logout
 <div class="row align-items-center">
 
 <div class="col-lg-8">
+
+<div class="text-uppercase fw-bold small mb-2" style="letter-spacing:2px;color:#fed7aa;">Order history</div>
 
 <h1>
 
@@ -864,7 +930,7 @@ Search
 <div class="filters">
 
 <button
-class="filter-btn"
+class="filter-btn active"
 data-filter="all">
 
 All Orders
@@ -1014,6 +1080,45 @@ css="cancelled";
 
 }
 
+String normalizedStatus=status==null ? "PLACED" : status.trim().toUpperCase();
+int currentStage=0;
+String progressMessage="Awaiting restaurant confirmation for this order.";
+
+if("ACCEPTED".equals(normalizedStatus)){
+    currentStage=1;
+    progressMessage="The restaurant has accepted this order.";
+}else if("PREPARING".equals(normalizedStatus) || "READY".equals(normalizedStatus)){
+    currentStage=2;
+    progressMessage="Your meal is being freshly prepared.";
+}else if("ASSIGNED".equals(normalizedStatus)){
+    currentStage=3;
+    progressMessage="A delivery partner has been assigned.";
+}else if("PICKED_UP".equals(normalizedStatus)){
+    currentStage=3;
+    progressMessage="Your delivery partner has picked up the order.";
+}else if("OUT_FOR_DELIVERY".equals(normalizedStatus)){
+    currentStage=3;
+    progressMessage="Your order is on its way to you.";
+}else if("DELIVERED".equals(normalizedStatus)){
+    currentStage=4;
+    progressMessage="This order was delivered successfully.";
+}
+
+String[] progressTitles={"Order placed","Restaurant confirmed","Preparing your meal","Out for delivery","Delivered"};
+
+List<OrderItem> orderItems=orderItemsByOrder==null ? null : orderItemsByOrder.get(order.getOrderId());
+StringBuilder itemSummaryBuilder=new StringBuilder();
+if(orderItems!=null && !orderItems.isEmpty()){
+    for(int itemIndex=0;itemIndex<orderItems.size();itemIndex++){
+        OrderItem orderItem=orderItems.get(itemIndex);
+        String itemName=orderItem.getFoodItem()==null ? "Item #"+orderItem.getFoodId() : orderItem.getFoodItem().getFoodName();
+        if(itemIndex>0){ itemSummaryBuilder.append(", "); }
+        itemSummaryBuilder.append(itemName).append(" ×").append(orderItem.getQuantity());
+    }
+}
+String itemSummary=itemSummaryBuilder.length()==0 ? "Order items unavailable" : itemSummaryBuilder.toString();
+boolean canCancel="PLACED".equals(normalizedStatus) || "PENDING".equals(normalizedStatus) || "ACCEPTED".equals(normalizedStatus);
+
 %>
 <div
 class="order-card order-item"
@@ -1101,81 +1206,37 @@ Paid Successfully
 
 <!-- ORDER TIMELINE -->
 
-<div class="timeline">
+<% if("CANCELLED".equals(normalizedStatus)){ %>
 
-<div class="timeline-step">
+<div class="cancelled-progress">
+<i class="bi bi-x-circle-fill me-2"></i>Order #<%=order.getOrderId()%> was cancelled. No further delivery updates are available.
+</div>
 
-<strong>
+<% }else{ %>
 
-Order Confirmed
+<div class="order-progress-heading">
+<span>Live progress</span>
+<div>Order #<%=order.getOrderId()%> · <%=progressMessage%></div>
+</div>
 
-</strong>
+<div class="timeline" aria-label="Order #<%=order.getOrderId()%> delivery progress">
 
-<br>
+<% for(int step=0;step<progressTitles.length;step++){
+boolean isDelivered="DELIVERED".equals(normalizedStatus);
+String stepClass=(isDelivered || step<currentStage) ? "completed" : (step==currentStage ? "active" : "future");
+String stepDescription=isDelivered ? (step==4 ? "Delivered successfully" : "Completed") : (step<currentStage ? "Completed" : (step==currentStage ? progressMessage : "Waiting for this update"));
+%>
 
-<small class="text-muted">
+<div class="timeline-step <%=stepClass%>">
+<strong><%=progressTitles[step]%></strong>
+<small class="text-muted"><%=stepDescription%></small>
+</div>
 
-Your order has been placed successfully.
-
-</small>
+<% } %>
 
 </div>
 
-<div class="timeline-step">
-
-<strong>
-
-Preparing Food
-
-</strong>
-
-<br>
-
-<small class="text-muted">
-
-Restaurant is preparing your meal.
-
-</small>
-
-</div>
-
-<div class="timeline-step">
-
-<strong>
-
-Out For Delivery
-
-</strong>
-
-<br>
-
-<small class="text-muted">
-
-Delivery partner is on the way.
-
-</small>
-
-</div>
-
-<div class="timeline-step">
-
-<strong>
-
-Delivered
-
-</strong>
-
-<br>
-
-<small class="text-muted">
-
-Enjoy your delicious meal!
-
-</small>
-
-</div>
-
-</div>
+<% } %>
 
 </div>
 
@@ -1183,10 +1244,7 @@ Enjoy your delicious meal!
 
 <div class="col-lg-4">
 
-<div
-style="background:#F8FAFC;
-border-radius:20px;
-padding:25px;">
+<div class="order-summary-panel">
 
 <div class="text-center">
 
@@ -1235,9 +1293,9 @@ Items
 
 </span>
 
-<strong>
+<strong class="item-summary">
 
-Multiple Items
+<%=itemSummary%>
 
 </strong>
 
@@ -1333,8 +1391,7 @@ Reorder
 
 <%
 
-if(!"DELIVERED".equalsIgnoreCase(order.getStatus())
-&& !"CANCELLED".equalsIgnoreCase(order.getStatus())){
+if(canCancel){
 
 %>
 
@@ -1571,15 +1628,11 @@ document.querySelectorAll(".filter-btn")
 
 .forEach(function(b){
 
-b.style.background="white";
-
-b.style.color="black";
+b.classList.remove("active");
 
 });
 
-btn.style.background="#F97316";
-
-btn.style.color="white";
+btn.classList.add("active");
 
 let filter=
 
@@ -1673,33 +1726,7 @@ toast.style.right="25px";
 
 toast.style.zIndex="9999";
 
-toast.innerHTML=`
-
-<div class="toast show text-bg-${type} border-0">
-
-<div class="d-flex">
-
-<div class="toast-body">
-
-${message}
-
-</div>
-
-<button
-
-type="button"
-
-class="btn-close btn-close-white me-2 m-auto"
-
-data-bs-dismiss="toast">
-
-</button>
-
-</div>
-
-</div>
-
-`;
+toast.innerHTML='<div class="toast show text-bg-' + type + ' border-0"><div class="d-flex"><div class="toast-body">' + message + '</div><button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button></div></div>';
 
 document.body.appendChild(toast);
 

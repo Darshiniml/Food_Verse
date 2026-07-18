@@ -17,6 +17,8 @@ import com.food_application.model.OrderItem;
 import com.food_application.model.Payment;
 import com.food_application.model.User;
 import com.food_application.utility.DBConnection;
+import com.food_application.utility.NotificationService;
+import com.food_application.model.NotificationType;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -106,6 +108,8 @@ public class PlaceOrderServlet extends HttpServlet {
             paymentDAO.addPayment(payment);
 
             connection.commit();
+            NotificationService.send(user.getUserId(), orderId, "Order Placed", "Your order has been placed successfully.", NotificationType.ORDER);
+            NotificationService.send(user.getUserId(), orderId, "Payment Successful", "Your payment has been received successfully.", NotificationType.PAYMENT);
             session.removeAttribute("cart");
 
             request.setAttribute("orderId", orderId);

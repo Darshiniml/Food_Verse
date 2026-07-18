@@ -726,8 +726,15 @@ public class OrderDAOImpl implements OrderDAO {
                     con.prepareStatement(query);
 
             ps.setString(1,status);
-
-            ps.setInt(2,orderId);
+            ps.setString(2,status);
+            ps.setString(3,status);
+            ps.setString(4,status);
+            ps.setString(5,status);
+            ps.setString(6,status);
+            ps.setString(7,status);
+            ps.setString(8,status);
+            ps.setString(9,status);
+            ps.setInt(10,orderId);
 
             ps.executeUpdate();
 
@@ -748,18 +755,27 @@ public class OrderDAOImpl implements OrderDAO {
 
     @Override
     public OrderStatus getOrderStatus(int orderId) {
-        String query = "SELECT COALESCE(order_status, status) AS current_status FROM orders WHERE order_id=?";
+        String query = "SELECT status, order_status FROM orders WHERE order_id=?";
         try (PreparedStatement ps = con.prepareStatement(query)) {
             ps.setInt(1, orderId);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
-                    return OrderStatus.fromString(rs.getString("current_status"));
+                    return mostAdvancedStatus(
+                            OrderStatus.fromString(rs.getString("status")),
+                            OrderStatus.fromString(rs.getString("order_status")));
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return OrderStatus.PLACED;
+    }
+
+    private OrderStatus mostAdvancedStatus(OrderStatus first, OrderStatus second) {
+        if (first == OrderStatus.CANCELLED || second == OrderStatus.CANCELLED) {
+            return OrderStatus.CANCELLED;
+        }
+        return first.ordinal() >= second.ordinal() ? first : second;
     }
 
     @Override

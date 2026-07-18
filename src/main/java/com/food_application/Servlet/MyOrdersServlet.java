@@ -2,10 +2,15 @@ package com.food_application.Servlet;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import com.food_application.DAO.OrderDAO;
+import com.food_application.DAO.OrderItemDAO;
 import com.food_application.DAOApplication.OrderDAOImpl;
+import com.food_application.DAOApplication.OrderItemDAOImpl;
 import com.food_application.model.Order;
+import com.food_application.model.OrderItem;
 import com.food_application.model.User;
 
 import jakarta.servlet.ServletException;
@@ -48,7 +53,15 @@ public class MyOrdersServlet extends HttpServlet {
         List<Order> orders =
                 dao.getOrdersByUserId(user.getUserId());
 
+        OrderItemDAO orderItemDAO = new OrderItemDAOImpl();
+        Map<Integer, List<OrderItem>> orderItemsByOrder = new LinkedHashMap<>();
+        for (Order order : orders) {
+            orderItemsByOrder.put(order.getOrderId(),
+                    orderItemDAO.getOrderItemsByOrderId(order.getOrderId()));
+        }
+
         request.setAttribute("orders", orders);
+        request.setAttribute("orderItemsByOrder", orderItemsByOrder);
 
         request.getRequestDispatcher("myOrders.jsp")
                .forward(request, response);
